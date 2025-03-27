@@ -1,4 +1,7 @@
-interface Station {
+import {Prix} from "./Prix";
+
+
+export default interface Station {
     id: number;
     latitude: string;
     longitude: string;
@@ -7,12 +10,7 @@ interface Station {
     adresse: string;
     ville: string;
     services: string | null;
-    prix: Array<{
-        nom: string;
-        id: string;
-        maj: string;
-        valeur: string;
-    }>;
+    prix: string;
     rupture: {
         nom: string;
         id: string;

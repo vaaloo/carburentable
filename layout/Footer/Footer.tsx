@@ -3,7 +3,7 @@ import StationItem from "../../components/StationItem/StationItem";
 import {dataHook} from "../../hook/dataHook";
 
 export default function Footer() {
-    const { data } = dataHook("select=*&where=code_departement=13");
+    const { data } = dataHook("select=*&where=cp=13100");
     if (!data) {
         return null
     }
@@ -18,6 +18,7 @@ export default function Footer() {
 
 const styles = StyleSheet.create({
     footer: {
+        padding:3,
         bottom: 5,
         overflow: "scroll",
         position: 'absolute',
