@@ -1,34 +1,3 @@
-interface FuelPrice {
-    "nom": string;
-    "id": string;
-    "maj": string;
-    "valeur": string;
-}
-
-interface Rupture {
-    "nom": string;
-    "id": string;
-    "debut": string;
-    "fin": string;
-    "type": string;
-}
-
-interface Jour {
-    "id": string;
-    "nom": string;
-    "ferme": string;
-}
-
-interface Horaires {
-    "automate-24-24": string;
-    jour: Jour[];
-}
-
-interface Geom {
-    lon: number;
-    lat: number;
-}
-
 interface Station {
     id: number;
     latitude: string;
@@ -38,10 +7,31 @@ interface Station {
     adresse: string;
     ville: string;
     services: string | null;
-    prix: FuelPrice[];
-    rupture: Rupture;
-    horaires: Horaires;
-    geom: Geom;
+    prix: Array<{
+        nom: string;
+        id: string;
+        maj: string;
+        valeur: string;
+    }>;
+    rupture: {
+        nom: string;
+        id: string;
+        debut: string;
+        fin: string;
+        type: string;
+    };
+    horaires: {
+        "automate-24-24": string;
+        jour: Array<{
+            id: string;
+            nom: string;
+            ferme: string;
+        }>;
+    };
+    geom: {
+        lon: number;
+        lat: number;
+    };
     horaires_automate_24_24: string;
     departement: string;
     code_departement: string;
