@@ -29,7 +29,7 @@ export default function StationItem({ station }: Props) {
 
             <View>
                 {prix && prix.map((item, i) => (
-                    <Text key={i}>{item.nom} - {item.valeur}</Text>
+                    <Text key={i} style={styles.fuelItem}>{item.nom} - {item.valeur}</Text>
 
                 ))}
             </View>
@@ -44,30 +44,21 @@ const styles = StyleSheet.create({
         borderBottomColor: "#ccc",
     },
     title: {
+        color: "white",
         fontSize: 18,
         fontWeight: "bold",
     },
     address: {
+        color: "white",
         fontSize: 16,
         marginBottom: 8,
     },
     hours: {
+        color: "white",
         fontSize: 14,
-        color: "gray",
-    },
-    section: {
-        marginTop: 16,
-    },
-    sectionTitle: {
-        fontSize: 16,
-        fontWeight: "bold",
-        marginBottom: 8,
-    },
-    serviceItem: {
-        fontSize: 14,
-        marginBottom: 4,
     },
     fuelItem: {
+        color: "white",
         fontSize: 14,
         marginBottom: 4,
     },
