@@ -1,10 +1,10 @@
 import { Dimensions, StyleSheet, View } from "react-native";
 import { BlurView } from "expo-blur"; // Importer BlurView
 import StationItem from "../../components/StationItem/StationItem";
-import { dataHook } from "../../hook/dataHook";
+import withDataFetching from "../../hoc/withDataFetching";
+import Station from "../../types/Station";
 
-export default function Footer() {
-    const { data } = dataHook("select=*&where=cp=13100");
+function Footer({data}: {data: Station[]}) {
     if (!data) {
         return null;
     }
@@ -33,3 +33,5 @@ const styles = StyleSheet.create({
         overflow: "hidden",
     },
 });
+
+export default withDataFetching(Footer, 'select=*&where=cp=13100')

@@ -25,7 +25,7 @@ export default function StationItem({ station }: Props) {
     return (
         <View style={styles.container} >
             <Text style={styles.title}>{station.ville}</Text>
-            <Text style={styles.address}>{station.adresse}</Text>
+            <Text style={styles.address}>{station.adresse} - {station.geom.lat} - {station.geom.lon}</Text>
 
             <View>
                 {prix && prix.map((item, i) => (
@@ -39,6 +39,7 @@ export default function StationItem({ station }: Props) {
 
 const styles = StyleSheet.create({
     container: {
+        overflow: "scroll",
         padding: 16,
         borderBottomWidth: 1,
         borderBottomColor: "#ccc",
