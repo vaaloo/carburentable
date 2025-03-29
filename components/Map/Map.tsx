@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import MapView, { Marker, Region } from 'react-native-maps';
+import MapView, {Circle, Marker, Region, LatLng} from 'react-native-maps';
 import * as Location from 'expo-location';
 import DataMarkers from "../DataMarkers/DataMarkers";
 
 export default function Map() {
     const [region, setRegion] = useState<Region | null>(null);
+    const [latlng, setLatlng] = useState<LatLng>();
 
     useEffect(() => {
         (async () => {
@@ -19,6 +20,13 @@ export default function Map() {
                         latitudeDelta: 0.0922,
                         longitudeDelta: 0.0421,
                     });
+                    setLatlng(
+                        {
+                            latitude: 48.8566,
+                            longitude: 2.3522,
+
+                        }
+                    )
                     return;
                 }
 
@@ -29,6 +37,14 @@ export default function Map() {
                     latitudeDelta: 0.01,
                     longitudeDelta: 0.01,
                 });
+                setLatlng(
+                    {
+
+                        latitude: location.coords.latitude,
+                        longitude: location.coords.longitude,
+
+                    }
+                )
             } catch (error) {
                 console.error("Erreur lors de l'obtention de la localisation :", error);
             }
@@ -39,7 +55,13 @@ export default function Map() {
         <View style={styles.container}>
             {region ? (
                 <MapView style={styles.map} initialRegion={region}>
-                    <Marker coordinate={region} title="Vous êtes ici" />
+                    {latlng && <Circle
+                        center={latlng}
+                        radius={50}
+                        fillColor={"rgba(0, 255, 0, 0.3)"}
+                        strokeColor={"green"}
+                    /> }
+
                     <DataMarkers />
                 </MapView>
             ) : (
