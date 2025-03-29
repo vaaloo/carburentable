@@ -4,7 +4,7 @@ import MapView, { Marker, Region, Circle } from 'react-native-maps';
 import * as Location from 'expo-location';
 import DataMarkers from "../DataMarkers/DataMarkers";
 
-const Map = forwardRef((props, ref: ForwardedRef<MapView>) =>  {
+const Map = forwardRef(({ radius }: { radius: number }, ref: ForwardedRef<MapView>) =>  {
     const [region, setRegion] = useState<Region | null>(null);
 
     useEffect(() => {
@@ -38,19 +38,24 @@ const Map = forwardRef((props, ref: ForwardedRef<MapView>) =>  {
     return (
         <View style={styles.container}>
             {region ? (
-                <MapView ref={ref} style={styles.map} initialRegion={region}>
-                    <Marker coordinate={region} title="Vous êtes ici" />
+                <MapView
+                    ref={ref}
+                    style={styles.map}
+                    region={region}
+                    showsCompass={false}
+                    showsUserLocation={true}
+                    showsPointsOfInterest={false}
+
+                >
                     <Circle
                         center={{ latitude: region.latitude, longitude: region.longitude }}
-                        radius={50}
+                        radius={radius}
                         fillColor={"rgba(0, 255, 0, 0.3)"}
                         strokeColor={"green"}
                     />
                     <DataMarkers />
                 </MapView>
-            ) : (
-                null
-            )}
+            ) : null}
         </View>
     );
 });
@@ -60,6 +65,7 @@ export default Map;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: '#fff',
     },
     map: {
         flex: 1,

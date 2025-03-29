@@ -6,9 +6,10 @@ import Station from "../../types/Station";
 
 interface Props {
     station: Station;
+    onPress?: () => void;
 }
 
-export default function StationItem({ station }: Props) {
+export default function StationItem({ station, onPress }: Props) {
     const [prix, setPrix] = useState<Prix[]>([]);
     useEffect(() => {
         setPrix(
@@ -22,11 +23,8 @@ export default function StationItem({ station }: Props) {
         );
     }, [station]);
 
-    const handlePress = () => {
-        console.log(station.geom.lat, station.geom.lon)
-    }
     return (
-        <TouchableOpacity style={styles.container} onPress={handlePress}>
+        <TouchableOpacity style={styles.container} onPress={onPress}>
             <Text style={styles.title}>{station.ville}</Text>
             <Text style={styles.address}>{station.adresse} - {station.geom.lat} - {station.geom.lon}</Text>
 

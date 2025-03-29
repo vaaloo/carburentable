@@ -27,4 +27,4 @@ function DataMarkers({data}: {data: Station[]}) {
     );
 }
 
-export default withDataFetching(DataMarkers, "select=*&where=cp=13100");
+export default withDataFetching(DataMarkers, "select=*&where=cp=13120");

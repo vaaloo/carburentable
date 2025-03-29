@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { StyleSheet, View, Dimensions, Text } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import MapView from 'react-native-maps';
@@ -10,6 +10,9 @@ import {Colors} from "react-native/Libraries/NewAppScreen";
 
 export default function App() {
     const mapRef = useRef<MapView>(null);
+    const [radius, setRadius] = useState(1000);
+
+    const handleRangeChange = (km: number) => setRadius(km * 1000);
 
     const handleRecenter = async () => {
         let { status } = await Location.requestForegroundPermissionsAsync();
@@ -32,25 +35,28 @@ export default function App() {
         });
     };
 
+    const onStationClicked = (lat: number, lon: number) => {
+        mapRef.current?.animateToRegion({
+            latitude: lat,
+            longitude: lon,
+            latitudeDelta: 0.003,
+            longitudeDelta: 0.003,
+        });
+    };
+
     return (
         <View style={styles.container}>
             <StatusBar style="auto" />
-            <Header onRecenter={handleRecenter} />
-            <Map ref={mapRef} />
+            <Header onRecenter={handleRecenter} onRangeChange={handleRangeChange} />
+            <Map ref={mapRef} radius={radius} />
+            <Footer onStationClicked={onStationClicked}/>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
   container: {
-    maxWidth: Dimensions.get("window").width,
-    height: Dimensions.get("window").height,
-    position: 'relative',
-    padding: 5,
     flex: 1,
-    borderWidth: 1,
-    borderColor: Colors.white,
-    borderStyle: "solid",
     backgroundColor: '#fff',
   },
 });

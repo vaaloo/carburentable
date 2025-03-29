@@ -3,8 +3,18 @@ import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import Slider from '@react-native-community/slider';
 
-export default function Header({ onRecenter }: { onRecenter: () => void }) {
-    const [range, setRange] = useState(5);
+export default function Header({
+  onRecenter, onRangeChange
+}: {
+  onRecenter: () => void;
+  onRangeChange: (value: number) => void;
+}) {
+    const [range, setRange] = useState(1);
+
+    const handleValueChange = (value: number) => {
+        setRange(value);
+        onRangeChange(value);
+    };
 
     return (
         <View style={styles.header}>
@@ -20,10 +30,10 @@ export default function Header({ onRecenter }: { onRecenter: () => void }) {
                 <Slider
                     style={styles.slider}
                     minimumValue={1}
-                    maximumValue={20}
+                    maximumValue={5}
                     step={1}
                     value={range}
-                    onValueChange={setRange}
+                    onValueChange={handleValueChange}
                     minimumTrackTintColor="#fff"
                     maximumTrackTintColor="#777"
                     thumbTintColor="#ffffff"
