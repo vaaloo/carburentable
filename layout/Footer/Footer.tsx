@@ -5,7 +5,7 @@ import StationItem from "../../components/StationItem/StationItem";
 import withDataFetching from "../../hoc/withDataFetching";
 import Station from "../../types/Station";
 
-function Footer({ data }: { data: Station[] }) {
+function Footer({ data, onStationClicked }: { data: Station[]; onStationClicked: (lat: number, lon: number) => void }) {
     if (!data) {
         return null;
     }
@@ -14,7 +14,7 @@ function Footer({ data }: { data: Station[] }) {
         <BlurView intensity={50} tint="dark" style={styles.footer}>
             <Animated.ScrollView>
                 {data.map((station, index) => (
-                    <StationItem key={index} station={station} />
+                    <StationItem key={index} station={station} onPress={() => onStationClicked(station.geom.lat, station.geom.lon)}/>
                 ))}
             </Animated.ScrollView>
         </BlurView>
@@ -36,4 +36,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default withDataFetching(Footer, 'select=*&where=cp=13100');
+export default withDataFetching(Footer, 'select=*&where=cp=13120');
