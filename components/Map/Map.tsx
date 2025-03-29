@@ -1,6 +1,6 @@
 import React, {useEffect, useState, forwardRef, ForwardedRef} from 'react';
 import { StyleSheet, View, Platform, PermissionsAndroid } from 'react-native';
-import MapView, { Marker, Region } from 'react-native-maps';
+import MapView, { Marker, Region, Circle } from 'react-native-maps';
 import * as Location from 'expo-location';
 import DataMarkers from "../DataMarkers/DataMarkers";
 
@@ -37,24 +37,19 @@ const Map = forwardRef((props, ref: ForwardedRef<MapView>) =>  {
 
     return (
         <View style={styles.container}>
-            {region && (
+            {region ? (
                 <MapView ref={ref} style={styles.map} initialRegion={region}>
                     <Marker coordinate={region} title="Vous êtes ici" />
-              
-            {region ? (
-                <MapView style={styles.map} initialRegion={region}>
-                    {region && <Circle
-                        center={{latitude: region.latitude, longitude: region.longitude}}
+                    <Circle
+                        center={{ latitude: region.latitude, longitude: region.longitude }}
                         radius={50}
                         fillColor={"rgba(0, 255, 0, 0.3)"}
                         strokeColor={"green"}
-                    /> }
-
+                    />
                     <DataMarkers />
                 </MapView>
             ) : (
-                <View style={styles.loadingContainer}>
-                </View>
+                null
             )}
         </View>
     );
