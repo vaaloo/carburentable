@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState, forwardRef, ForwardedRef} from 'react';
 import { StyleSheet, View, Platform, PermissionsAndroid } from 'react-native';
 import MapView, { Marker, Region } from 'react-native-maps';
 import * as Location from 'expo-location';
 
-export default function Map() {
+const Map = forwardRef((props, ref: ForwardedRef<MapView>) =>  {
     const [region, setRegion] = useState<Region | null>(null);
 
     useEffect(() => {
@@ -34,13 +34,15 @@ export default function Map() {
     return (
         <View style={styles.container}>
             {region && (
-                <MapView style={styles.map} initialRegion={region}>
+                <MapView ref={ref} style={styles.map} initialRegion={region}>
                     <Marker coordinate={region} title="Vous êtes ici" />
                 </MapView>
             )}
         </View>
     );
-}
+});
+
+export default Map;
 
 const styles = StyleSheet.create({
     container: {
