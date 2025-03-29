@@ -22,8 +22,11 @@ export default function StationItem({ station }: Props) {
         );
     }, [station]);
 
+    const handlePress = () => {
+        console.log(station.geom.lat, station.geom.lon)
+    }
     return (
-        <View style={styles.container} >
+        <TouchableOpacity style={styles.container} onPress={handlePress}>
             <Text style={styles.title}>{station.ville}</Text>
             <Text style={styles.address}>{station.adresse} - {station.geom.lat} - {station.geom.lon}</Text>
 
@@ -33,13 +36,12 @@ export default function StationItem({ station }: Props) {
 
                 ))}
             </View>
-        </View>
+        </TouchableOpacity>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-        overflow: "scroll",
         padding: 16,
         borderBottomWidth: 1,
         borderBottomColor: "#ccc",
