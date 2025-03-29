@@ -28,7 +28,8 @@ export default function withDataFetching<P extends WithLoaderProps>(
     sql: string
 ) {
     return (props: Omit<P, "data">) => {
-        const { data, error } = dataHook(sql);
+        const { data } = dataHook(sql);
+
 
         return <Element {...(props as P)} data={data} />;
     };

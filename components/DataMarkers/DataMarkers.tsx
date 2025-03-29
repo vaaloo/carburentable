@@ -7,8 +7,6 @@ function DataMarkers({data}: {data: Station[]}) {
 
     if (!data) return null;
 
-
-
     return (
         <>
             {data.map((item: Station) => {
