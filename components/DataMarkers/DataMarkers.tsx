@@ -1,10 +1,8 @@
-
 import { Marker } from "react-native-maps";
 import Station from "../../types/Station";
 import withDataFetching from "../../hoc/withDataFetching";
 
 function DataMarkers({data}: {data: Station[]}) {
-
     if (!data) return null;
 
     return (
