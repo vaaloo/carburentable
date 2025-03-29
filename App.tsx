@@ -1,10 +1,12 @@
 import React, { useRef } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Dimensions, Text } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import MapView from 'react-native-maps';
 import Header from './layout/Header/Header';
 import Map from './components/Map/Map';
 import * as Location from 'expo-location';
+import Footer from "./layout/Footer/Footer";
+import {Colors} from "react-native/Libraries/NewAppScreen";
 
 export default function App() {
     const mapRef = useRef<MapView>(null);
@@ -40,7 +42,15 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
+  container: {
+    maxWidth: Dimensions.get("window").width,
+    height: Dimensions.get("window").height,
+    position: 'relative',
+    padding: 5,
+    flex: 1,
+    borderWidth: 1,
+    borderColor: Colors.white,
+    borderStyle: "solid",
+    backgroundColor: '#fff',
+  },
 });

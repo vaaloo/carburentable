@@ -2,32 +2,36 @@ import React, {useEffect, useState, forwardRef, ForwardedRef} from 'react';
 import { StyleSheet, View, Platform, PermissionsAndroid } from 'react-native';
 import MapView, { Marker, Region } from 'react-native-maps';
 import * as Location from 'expo-location';
+import DataMarkers from "../DataMarkers/DataMarkers";
 
 const Map = forwardRef((props, ref: ForwardedRef<MapView>) =>  {
     const [region, setRegion] = useState<Region | null>(null);
 
     useEffect(() => {
         (async () => {
-            let { status } = await Location.requestForegroundPermissionsAsync();
+            try {
+                let { status } = await Location.requestForegroundPermissionsAsync();
+                if (status !== 'granted') {
+                    console.warn('Permission to access location was denied');
+                    setRegion({
+                        latitude: 48.8566,
+                        longitude: 2.3522,
+                        latitudeDelta: 0.0922,
+                        longitudeDelta: 0.0421,
+                    });
+                    return;
+                }
 
-            if (status !== 'granted') {
-                console.log('Permission to access location was denied');
+                let location = await Location.getCurrentPositionAsync({});
                 setRegion({
-                    latitude: 48.8566,
-                    longitude: 2.3522,
-                    latitudeDelta: 0.0922,
-                    longitudeDelta: 0.0421,
+                    latitude: location.coords.latitude,
+                    longitude: location.coords.longitude,
+                    latitudeDelta: 0.01,
+                    longitudeDelta: 0.01,
                 });
-                return;
+            } catch (error) {
+                console.error("Erreur lors de l'obtention de la localisation :", error);
             }
-
-            let location = await Location.getCurrentPositionAsync({});
-            setRegion({
-                latitude: location.coords.latitude,
-                longitude: location.coords.longitude,
-                latitudeDelta: 0.01,
-                longitudeDelta: 0.01,
-            });
         })();
     }, []);
 
@@ -36,7 +40,21 @@ const Map = forwardRef((props, ref: ForwardedRef<MapView>) =>  {
             {region && (
                 <MapView ref={ref} style={styles.map} initialRegion={region}>
                     <Marker coordinate={region} title="Vous êtes ici" />
+              
+            {region ? (
+                <MapView style={styles.map} initialRegion={region}>
+                    {region && <Circle
+                        center={{latitude: region.latitude, longitude: region.longitude}}
+                        radius={50}
+                        fillColor={"rgba(0, 255, 0, 0.3)"}
+                        strokeColor={"green"}
+                    /> }
+
+                    <DataMarkers />
                 </MapView>
+            ) : (
+                <View style={styles.loadingContainer}>
+                </View>
             )}
         </View>
     );
@@ -50,5 +68,10 @@ const styles = StyleSheet.create({
     },
     map: {
         flex: 1,
+    },
+    loadingContainer: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
     },
 });
