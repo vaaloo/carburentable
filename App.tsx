@@ -7,10 +7,11 @@ import Map from './components/Map/Map';
 import * as Location from 'expo-location';
 import Footer from "./layout/Footer/Footer";
 import {Colors} from "react-native/Libraries/NewAppScreen";
+import {DataProvider} from "./context/DataContext";
 
 export default function App() {
     const mapRef = useRef<MapView>(null);
-    const [radius, setRadius] = useState(1000);
+    const [radius, setRadius] = useState(50);
 
     const handleRangeChange = (km: number) => setRadius(km * 1000);
 
@@ -45,12 +46,16 @@ export default function App() {
     };
 
     return (
-        <View style={styles.container}>
-            <StatusBar style="auto" />
-            <Header onRecenter={handleRecenter} onRangeChange={handleRangeChange} />
-            <Map ref={mapRef} radius={radius} />
-            <Footer onStationClicked={onStationClicked}/>
-        </View>
+        <DataProvider>
+
+            <View style={styles.container}>
+                <StatusBar style="auto" />
+                <Header onRecenter={handleRecenter} onRangeChange={handleRangeChange} />
+                <Map ref={mapRef} radius={radius} />
+                <Footer onStationClicked={onStationClicked}/>
+            </View>
+
+        </DataProvider>
     );
 }
 

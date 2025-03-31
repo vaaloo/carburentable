@@ -26,6 +26,7 @@ export default function Header({
                     <Ionicons name="locate" size={24} color="#fff" />
                 </TouchableOpacity>
             </View>
+
             <View style={styles.sliderContainer}>
                 <Slider
                     style={styles.slider}

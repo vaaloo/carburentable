@@ -1,11 +1,14 @@
 import React from "react";
-import { Animated, Dimensions, StyleSheet, View } from "react-native";
+import { Animated, Dimensions, StyleSheet } from "react-native";
 import { BlurView } from "expo-blur";
 import StationItem from "../../components/StationItem/StationItem";
-import withDataFetching from "../../hoc/withDataFetching";
-import Station from "../../types/Station";
+import {useData} from "../../context/DataContext";
 
-function Footer({ data, onStationClicked }: { data: Station[]; onStationClicked: (lat: number, lon: number) => void }) {
+export default function Footer({ onStationClicked }: { onStationClicked: (lat: number, lon: number) => void }) {
+    const { data } = useData();
+
+
+
     if (!data) {
         return null;
     }
@@ -14,7 +17,7 @@ function Footer({ data, onStationClicked }: { data: Station[]; onStationClicked:
         <BlurView intensity={30} tint="dark" style={styles.footer}>
             <Animated.ScrollView>
                 {data.map((station, index) => (
-                    <StationItem key={index} station={station} onPress={() => onStationClicked(station.geom.lat, station.geom.lon)}/>
+                    <StationItem key={index} station={station} onPress={() => onStationClicked(station.geom.lat, station.geom.lon)} />
                 ))}
             </Animated.ScrollView>
         </BlurView>
@@ -24,11 +27,10 @@ function Footer({ data, onStationClicked }: { data: Station[]; onStationClicked:
 const styles = StyleSheet.create({
     footer: {
         padding: 10,
-        bottom: 20,
-        left: 20,
+        bottom: 0,
         position: "absolute",
-        width: Dimensions.get("window").width - 40,
-        height: "30%",
+        width: Dimensions.get("window").width,
+        height: "25%",
         borderRadius: 12,
         overflow: "hidden",
         backgroundColor: "rgba(0,0,0,0.7)",
@@ -39,5 +41,3 @@ const styles = StyleSheet.create({
         borderWidth: 0,
     }
 });
-
-export default withDataFetching(Footer, 'select=*&where=cp=13120');
