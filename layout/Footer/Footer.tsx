@@ -6,14 +6,14 @@ import { useData } from "../../context/DataContext";
 import {Filtered} from "../../types/Filtered";
 
 export default function Footer({ onStationClicked }: { onStationClicked: (lat: number, lon: number) => void }) {
-    const { data, filteredData, setFilteredData } = useData();
+    const { data, setFilteredData } = useData();
     const [height] = useState(new Animated.Value(Dimensions.get("window").height * 0.25));
     const panResponder = useRef(
         PanResponder.create({
             onStartShouldSetPanResponder: () => true,
             onMoveShouldSetPanResponder: () => true,
             onPanResponderMove: (evt, gestureState) => {
-                const newHeight = Math.max(Dimensions.get("window").height * 0.25, Math.min(Dimensions.get("window").height * 0.5, height._value - gestureState.dy));
+                const newHeight = Math.max(Dimensions.get("window").height * 0.25, Math.min(Dimensions.get("window").height * 0.5, height._value - gestureState.dy)); //petit erreur ici mais ca marche ducoup je sais pas trop
                 height.setValue(newHeight);
             },
             onPanResponderRelease: (evt, gestureState) => {
