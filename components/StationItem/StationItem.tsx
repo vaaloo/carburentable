@@ -3,6 +3,7 @@ import { Text, TouchableOpacity, View, StyleSheet } from "react-native";
 import { Ionicons, FontAwesome5 } from '@expo/vector-icons';
 import {Prix} from "../../types/Prix";
 import Station from "../../types/Station";
+import parseStationPrices from "../../utils/parseStationPrices";
 
 interface Props {
     station: Station;
@@ -11,16 +12,9 @@ interface Props {
 
 export default function StationItem({ station, onPress }: Props) {
     const [prix, setPrix] = useState<Prix[]>([]);
+
     useEffect(() => {
-        setPrix(
-            JSON.parse(station.prix).map((item: { [x: string]: any; }) =>
-                Object.keys(item).reduce((acc, key) => {
-                    // @ts-ignore
-                    acc[key.replace("@", "")] = item[key];
-                    return acc;
-                }, {})
-            )
-        );
+        setPrix(parseStationPrices(station));
     }, [station]);
 
     return (
