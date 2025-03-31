@@ -33,7 +33,12 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
     }, []);
 
     useEffect(() => {
-        if (!filteredData.is_best) setData(baseData);
+        console.log(filteredData);
+
+        if (!filteredData.is_best) {
+            setData(baseData);
+            return;
+        }
 
         let lowestPrice = Infinity;
         let stationsWithLowestPrice: Station[] = [];
@@ -56,7 +61,10 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
                 calculateDistance(region.latitude, region.longitude, b.geom.lat, b.geom.lon)
             );
         }
+
         setData([stationsWithLowestPrice[0]]);
+
+
 
 
 

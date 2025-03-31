@@ -1,26 +1,55 @@
-import React from "react";
-import { Animated, Dimensions, StyleSheet } from "react-native";
+import React, { useRef, useState } from "react";
+import { Animated, Dimensions, PanResponder, StyleSheet } from "react-native";
 import { BlurView } from "expo-blur";
 import StationItem from "../../components/StationItem/StationItem";
-import {useData} from "../../context/DataContext";
+import { useData } from "../../context/DataContext";
+import {Filtered} from "../../types/Filtered";
 
 export default function Footer({ onStationClicked }: { onStationClicked: (lat: number, lon: number) => void }) {
-    const { data } = useData();
-
-
+    const { data, filteredData, setFilteredData } = useData();
+    const [height] = useState(new Animated.Value(Dimensions.get("window").height * 0.25));
+    const panResponder = useRef(
+        PanResponder.create({
+            onStartShouldSetPanResponder: () => true,
+            onMoveShouldSetPanResponder: () => true,
+            onPanResponderMove: (evt, gestureState) => {
+                const newHeight = Math.max(Dimensions.get("window").height * 0.25, Math.min(Dimensions.get("window").height * 0.5, height._value - gestureState.dy));
+                height.setValue(newHeight);
+            },
+            onPanResponderRelease: (evt, gestureState) => {
+                if (gestureState.dy < -50) {
+                    Animated.spring(height, {
+                        toValue: Dimensions.get("window").height * 0.5,
+                        useNativeDriver: false,
+                    }).start(() => {
+                        setFilteredData((prev: Filtered) => ({ ...prev, is_best: false }));
+                    });
+                } else {
+                    Animated.spring(height, {
+                        toValue: Dimensions.get("window").height * 0.25,
+                        useNativeDriver: false,
+                    }).start(() => {
+                        setFilteredData((prev: Filtered) => ({ ...prev, is_best: true }));
+                    });
+                }
+            },
+        })
+    ).current;
 
     if (!data) {
         return null;
     }
 
     return (
-        <BlurView intensity={30} tint="dark" style={styles.footer}>
-            <Animated.ScrollView>
-                {data.map((station, index) => (
-                    <StationItem key={index} station={station} onPress={() => onStationClicked(station.geom.lat, station.geom.lon)} />
-                ))}
-            </Animated.ScrollView>
-        </BlurView>
+        <Animated.View style={[styles.footer, { height }]} {...panResponder.panHandlers}>
+            <BlurView intensity={30} tint="dark" style={StyleSheet.absoluteFill}>
+                <Animated.ScrollView>
+                    {data.map((station, index) => (
+                        <StationItem key={index} station={station} onPress={() => onStationClicked(station.geom.lat, station.geom.lon)} />
+                    ))}
+                </Animated.ScrollView>
+            </BlurView>
+        </Animated.View>
     );
 }
 
@@ -30,7 +59,6 @@ const styles = StyleSheet.create({
         bottom: 0,
         position: "absolute",
         width: Dimensions.get("window").width,
-        height: "25%",
         borderRadius: 12,
         overflow: "hidden",
         backgroundColor: "rgba(0,0,0,0.7)",
