@@ -1,18 +1,17 @@
-import React, {createContext, useContext, useState, ReactNode, useEffect} from 'react';
+import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import Station from "../types/Station";
-import {Filtered} from "../types/Filtered";
+import { Filtered } from "../types/Filtered";
 import useLocationRegion from "../hook/useLocationRegion";
 import parseStationPrices from "../utils/parseStationPrices";
 import calculateDistance from "../utils/calculateDistance";
 
-// Interface étendue pour inclure les stations avec leur opacité
-interface StationWithOpacity extends Station {
-    opacity: number;
+interface StationWithVisibility extends Station {
+    isVisible: boolean;
 }
 
 interface DataContextType {
-    data: StationWithOpacity[];
-    setData: React.Dispatch<React.SetStateAction<StationWithOpacity[]>>;
+    data: StationWithVisibility[];
+    setData: React.Dispatch<React.SetStateAction<StationWithVisibility[]>>;
     filteredData: any;
     setFilteredData: React.Dispatch<React.SetStateAction<any>>;
 }
@@ -21,10 +20,10 @@ const DataContext = createContext<DataContextType | undefined>(undefined);
 
 export const DataProvider = ({ children }: { children: ReactNode }) => {
     const [baseData, setBaseData] = useState<Station[]>([]);
-    const [data, setData] = useState<StationWithOpacity[]>([]);
+    const [data, setData] = useState<StationWithVisibility[]>([]);
     const region = useLocationRegion();
     const [filteredData, setFilteredData] = useState<Filtered>({
-        fuelType: "E10",
+        fuelType: "GPLc",
         is_best: true,
     });
 
@@ -49,16 +48,14 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
         if (!baseData.length) return;
 
         if (!filteredData.is_best) {
-            // Afficher toutes les stations avec une opacité complète
-            const allStationsWithOpacity = baseData.map(station => ({
+            const allStationsWithVisibility = baseData.map(station => ({
                 ...station,
-                opacity: 1
+                isVisible: true
             }));
-            setData(allStationsWithOpacity);
+            setData(allStationsWithVisibility);
             return;
         }
 
-        // Trouver le prix le plus bas pour le type de carburant sélectionné
         let lowestPrice = Infinity;
         let stationsWithLowestPrice: Station[] = [];
 
@@ -81,17 +78,17 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
             );
         }
 
-        const stationsWithOpacity: StationWithOpacity[] = baseData.map(station => {
+        const stationsWithVisibility: StationWithVisibility[] = baseData.map(station => {
             const isBestStation = stationsWithLowestPrice.length > 0 &&
                 station.id === stationsWithLowestPrice[0].id;
 
             return {
                 ...station,
-                opacity: isBestStation ? 1 : 0.3
+                isVisible: isBestStation
             };
         });
 
-        setData(stationsWithOpacity);
+        setData(stationsWithVisibility);
 
     }, [filteredData, baseData, region]);
 
