@@ -1,4 +1,4 @@
-import MapView, { Circle, LatLng, Region } from 'react-native-maps';
+import MapView, { LatLng } from 'react-native-maps';
 import React, { forwardRef, ForwardedRef } from 'react';
 import { StyleSheet, View, ActivityIndicator } from 'react-native';
 import useLocationRegion from "../../hook/useLocationRegion";
@@ -10,13 +10,25 @@ const Map = forwardRef(({ radius }: { radius: number }, ref: ForwardedRef<MapVie
     return (
         <View style={styles.container}>
             {region ? (
-                <MapView style={styles.map} initialRegion={region} ref={ref}>
-                    <Circle
-                        center={{ latitude: region.latitude, longitude: region.longitude } as LatLng}
-                        radius={radius}
-                        fillColor={"rgba(0, 255, 0, 0.3)"}
-                        strokeColor={"green"}
-                    />
+                <MapView
+                    style={styles.map}
+                    initialRegion={region} ref={ref}
+                    showsPointsOfInterest={false}
+                    showsUserLocation={true}
+                    showsMyLocationButton={false}
+                    onRegionChange={(r) => {
+                        const lat = r.latitude;
+                        const lon = r.longitude;
+                        const url = `https://api-adresse.data.gouv.fr/reverse/?lon=${lon}&lat=${lat}`;
+                        fetch(url)
+                            .then((response) => response.json())
+                            .then((data) => {
+                                console.log(data.features[0].properties.postcode);
+                            });
+                    }}
+                    loadingEnabled={true}
+                    showsCompass={false}
+                >
                     <DataMarkers />
                 </MapView>
             ) : (
