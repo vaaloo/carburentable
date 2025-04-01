@@ -5,29 +5,24 @@ import { useData } from "../../context/DataContext";
 
 export default function DataMarkers() {
     const { data } = useData();
-    const [markers, setMarkers] = useState<Station[]>([]);
 
-    useEffect(() => { //TODO continuer de trouver un fix ici
-        if (data) {
-            setMarkers(data);
-        }
-        console.log(data.length);
-    }, [data]);
+    console.log("Data length:", data.length);
 
-    if (!markers) return null;
 
     return (
         <>
-            {markers.map((item: Station) => (
-                <Marker
-                    key={item.id || `${item.geom.lat}-${item.geom.lon}`}
-                    coordinate={{
-                        latitude: item.geom.lat,
-                        longitude: item.geom.lon,
-                    }}
-                    title={item.adresse}
-                />
-            ))}
+            {data.map((item: Station) => {
+                console.log('id',item.id)
+                return (
+                    <Marker
+                        key={item.id || `${item.geom.lat}-${item.geom.lon}`}
+                        coordinate={{
+                            latitude: item.geom.lat,
+                            longitude: item.geom.lon,
+                        }}
+                        title={item.adresse}
+                    />)
+            })}
         </>
     );
 }
