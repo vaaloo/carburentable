@@ -62,7 +62,7 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
             );
         }
 
-        setData([stationsWithLowestPrice[0]]);
+        setData(baseData);
 
 
 

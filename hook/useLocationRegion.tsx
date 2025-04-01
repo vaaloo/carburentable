@@ -27,6 +27,8 @@ const useLocationRegion = () => {
                     latitudeDelta: 0.01,
                     longitudeDelta: 0.01,
                 });
+
+                console.log(Location.LocationGeofencingRegionState);
             } catch (error) {
                 console.error("Erreur lors de l'obtention de la localisation :", error);
             }

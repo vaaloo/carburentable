@@ -40,7 +40,9 @@ const styles = StyleSheet.create({
         padding: 14,
         borderRadius: 10,
         backgroundColor: "rgba(255,255,255,0.05)",
+        width: "90%",
         marginBottom: 10,
+        left: "5%"
     },
     title: {
         color: "white",
