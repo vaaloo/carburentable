@@ -1,5 +1,5 @@
 export interface Filtered {
-    fuelType?: string[];
+    fuelType: string;
     is_best: boolean;
 
 

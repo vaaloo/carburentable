@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
         shadowRadius: 6,
     },
     dragZone: {
-        height: 20, // Zone où le PanResponder peut s'activer
+        height: 40, // Zone où le PanResponder peut s'activer
         backgroundColor: "transparent",
     },
 });
