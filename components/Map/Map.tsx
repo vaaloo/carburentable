@@ -13,7 +13,7 @@ const Map = forwardRef(({ radius }: { radius: number }, ref: ForwardedRef<MapVie
         console.log("Map effect, data length:", data?.length);
 
         if (data && data.length > 0) {
-            const bestStation = data.find(item => item.opacity === 1);
+            const bestStation = data.find(item => item.isVisible );
             if (bestStation) {
                 // @ts-ignore
                 setSelectedMarkerId(bestStation.id);
@@ -22,7 +22,7 @@ const Map = forwardRef(({ radius }: { radius: number }, ref: ForwardedRef<MapVie
     }, [data]);
 
     const renderMarker = (item: any, index: number) => {
-        const isBestStation = item.opacity === 1;
+        const isBestStation = item.isVisible === true;
 
         return (
             <Marker
