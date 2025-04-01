@@ -1,16 +1,24 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Marker } from "react-native-maps";
 import Station from "../../types/Station";
 import { useData } from "../../context/DataContext";
 
 export default function DataMarkers() {
     const { data } = useData();
+    const [markers, setMarkers] = useState<Station[]>([]);
 
-    if (!data) return null;
+    useEffect(() => { //TODO continuer de trouver un fix ici
+        if (data) {
+            setMarkers(data);
+        }
+        console.log(data.length);
+    }, [data]);
+
+    if (!markers) return null;
 
     return (
         <>
-            {data.map((item: Station) => (
+            {markers.map((item: Station) => (
                 <Marker
                     key={item.id || `${item.geom.lat}-${item.geom.lon}`}
                     coordinate={{
