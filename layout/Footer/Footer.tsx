@@ -7,6 +7,7 @@ import { Filtered } from "../../types/Filtered";
 
 export default function Footer({ onStationClicked }: { onStationClicked: (lat: number, lon: number) => void }) {
     const { data, setFilteredData } = useData();
+    const dataReel = data.filter((item) => item.opacity === 1);
     const [height] = useState(new Animated.Value(Dimensions.get("window").height * 0.25));
     const touchStartY = useRef(0);
 
@@ -55,7 +56,7 @@ export default function Footer({ onStationClicked }: { onStationClicked: (lat: n
                     keyboardShouldPersistTaps="handled"
                     onStartShouldSetResponderCapture={() => false}
                 >
-                    {data.map((station, index) => (
+                    {dataReel.map((station, index) => (
                         <StationItem key={index} station={station} onPress={() => onStationClicked(station.geom.lat, station.geom.lon)} />
                     ))}
                 </ScrollView>
