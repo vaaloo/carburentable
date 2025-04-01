@@ -33,10 +33,9 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
     }, []);
 
     useEffect(() => {
-        console.log(filteredData);
-
         if (!filteredData.is_best) {
             setData(baseData);
+
             return;
         }
 
@@ -61,8 +60,7 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
                 calculateDistance(region.latitude, region.longitude, b.geom.lat, b.geom.lon)
             );
         }
-
-        setData(baseData);
+        setData([baseData[0]]); //en attendant de fix le bug undefind
 
 
 
