@@ -25,7 +25,7 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
     const [baseData, setBaseData] = useState<Station[]>([]);
     const [data, setData] = useState<Station[]>([]);
     const [filteredData, setFilteredData] = useState<Filtered>({
-        fuelType: "Gazole",
+        fuelType: "E10",
         is_best: true,
     });
 

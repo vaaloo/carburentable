@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import Slider from '@react-native-community/slider';
+import Filter from "../../components/Filter/Filter";
 
 export default function Header({
   onRecenter, onRangeChange
@@ -25,6 +26,7 @@ export default function Header({
                 <TouchableOpacity style={styles.iconButton} onPress={onRecenter}>
                     <Ionicons name="locate" size={24} color="#fff" />
                 </TouchableOpacity>
+                <Filter/>
             </View>
         </View>
     );
