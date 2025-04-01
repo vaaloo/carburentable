@@ -2,6 +2,7 @@ import {Prix} from "../types/Prix";
 import Station from "../types/Station";
 
 const parseStationPrices = (station: Station): Prix[] => {
+    if (!station.prix) return [];
     return JSON.parse(station.prix).map((item: { [x: string]: any }) =>
         Object.keys(item).reduce((acc, key) => {
             // @ts-ignore

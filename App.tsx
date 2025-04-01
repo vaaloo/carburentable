@@ -8,6 +8,7 @@ import * as Location from 'expo-location';
 import Footer from "./layout/Footer/Footer";
 import {Colors} from "react-native/Libraries/NewAppScreen";
 import {DataProvider} from "./context/DataContext";
+import {LocationProvider} from "./context/LocationContext";
 
 export default function App() {
     const mapRef = useRef<MapView>(null);

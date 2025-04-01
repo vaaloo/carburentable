@@ -1,13 +1,24 @@
-import MapView, { Marker, Callout } from 'react-native-maps';
-import React, { forwardRef, ForwardedRef, useEffect, useState } from 'react';
+import MapView, {Marker, Callout, LatLng} from 'react-native-maps';
+import React, {forwardRef, ForwardedRef, useEffect, useState, useRef} from 'react';
 import { StyleSheet, View, ActivityIndicator, Text } from 'react-native';
 import useLocationRegion from "../../hook/useLocationRegion";
 import { useData } from "../../context/DataContext";
+import fetchStations from "../../utils/fetchStations";
 
 const Map = forwardRef(({ radius }: { radius: number }, ref: ForwardedRef<MapView>) => {
-    const region = useLocationRegion();
+    const { region, setZipCode, zipCode } = useLocationRegion();
     const { data, filteredData } = useData();
     const [selectedMarkerId, setSelectedMarkerId] = useState<string | null>(null);
+    const zipDebounce = useRef<NodeJS.Timeout | null>(null);
+    const { setBaseData } = useData();
+
+    useEffect(() => {
+        if (!zipCode) return;
+
+        fetchStations(zipCode).then((data) => {
+            setBaseData(data);
+        });
+    }, [zipCode]);
 
     useEffect(() => {
         console.log("Map effect, data length:", data?.length);
@@ -67,19 +78,50 @@ const Map = forwardRef(({ radius }: { radius: number }, ref: ForwardedRef<MapVie
         );
     };
 
+    if (!region) {
+        return (
+            <View style={styles.container}>
+                <ActivityIndicator size="large" color="#0000ff" />
+            </View>
+        );
+    }
+
+    const handleRegionChange = (r: LatLng) => {
+        const lat = r.latitude;
+        const lon = r.longitude;
+
+        // Debounce l’appel API + setZipCode
+        if (zipDebounce.current) clearTimeout(zipDebounce.current);
+
+        zipDebounce.current = setTimeout(() => {
+            const url = `https://api-adresse.data.gouv.fr/reverse/?lon=${lon}&lat=${lat}`;
+            fetch(url)
+                .then((response) => response.json())
+                .then((data) => {
+                    const newZip = data.features[0]?.properties?.postcode;
+                    if (newZip) {
+                        console.log("⛽️ Nouveau code postal :", newZip);
+                        setZipCode(newZip); // Ce zip déclenche useFetchStations dans le DataContext
+                    }
+                })
+                .catch((err) => console.error("Erreur reverse geocoding :", err));
+        }, 1500); // délai de 1.5s
+    };
+
     return (
         <View style={styles.container}>
             {region ? (
-                <MapView
-                    style={styles.map}
-                    initialRegion={region}
-                    ref={ref}
-                    showsPointsOfInterest={false}
-                    showsUserLocation={true}
-                    showsMyLocationButton={false}
-                    loadingEnabled={true}
-                    showsCompass={false}
-                >
+                    <MapView
+                        style={styles.map}
+                        initialRegion={region}
+                        ref={ref}
+                        showsPointsOfInterest={false}
+                        showsUserLocation={true}
+                        showsMyLocationButton={false}
+                        onRegionChange={handleRegionChange}
+                        loadingEnabled={true}
+                        showsCompass={false}
+                    >
                     {data && data.map(renderMarker)}
                 </MapView>
             ) : (

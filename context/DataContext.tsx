@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import Station from "../types/Station";
-import { Filtered } from "../types/Filtered";
+import {Filtered} from "../types/Filtered";
 import useLocationRegion from "../hook/useLocationRegion";
 import parseStationPrices from "../utils/parseStationPrices";
 import calculateDistance from "../utils/calculateDistance";
@@ -14,35 +14,20 @@ interface DataContextType {
     setData: React.Dispatch<React.SetStateAction<StationWithVisibility[]>>;
     filteredData: any;
     setFilteredData: React.Dispatch<React.SetStateAction<any>>;
+    baseData: any;
+    setBaseData: React.Dispatch<React.SetStateAction<any>>;
 }
 
 const DataContext = createContext<DataContextType | undefined>(undefined);
 
 export const DataProvider = ({ children }: { children: ReactNode }) => {
+    const { region, zipCode } = useLocationRegion();
     const [baseData, setBaseData] = useState<Station[]>([]);
-    const [data, setData] = useState<StationWithVisibility[]>([]);
-    const region = useLocationRegion();
+    const [data, setData] = useState<Station[]>([]);
     const [filteredData, setFilteredData] = useState<Filtered>({
         fuelType: "GPLc",
         is_best: true,
     });
-
-    useEffect(() => {
-        const encodedUri = encodeURI(`https://data.economie.gouv.fr/api/explore/v2.1/catalog/datasets/prix-des-carburants-en-france-flux-instantane-v2/records?` + "select=*&where=cp=13100");
-        fetch(encodedUri)
-            .then((response) => {
-                console.log("Response status:", response.status);
-                if (!response.ok) throw new Error(response.statusText);
-                return response.json();
-            })
-            .then((data) => {
-                console.log(data);
-                setBaseData(data.results);
-            })
-            .catch((error) => {
-                console.error("Error fetching data:", error);
-            });
-    }, []);
 
     useEffect(() => {
         if (!baseData.length) return;
@@ -73,8 +58,8 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
 
         if (stationsWithLowestPrice.length > 1 && region) {
             stationsWithLowestPrice.sort((a, b) =>
-                calculateDistance(region.latitude, region.longitude, a.geom.lat, a.geom.lon) -
-                calculateDistance(region.latitude, region.longitude, b.geom.lat, b.geom.lon)
+                calculateDistance(region?.latitude || 0, region?.longitude || 0, a.geom.lat, a.geom.lon) -
+                calculateDistance(region?.latitude || 0, region?.longitude || 0, b.geom.lat, b.geom.lon)
             );
         }
 
@@ -89,11 +74,10 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
         });
 
         setData(stationsWithVisibility);
-
     }, [filteredData, baseData, region]);
 
     return (
-        <DataContext.Provider value={{ data, setData, filteredData, setFilteredData }}>
+        <DataContext.Provider value={{ data, setData, filteredData, setFilteredData, setBaseData, baseData }}>
             {children}
         </DataContext.Provider>
     );

@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import * as Location from 'expo-location';
-import {Region} from "react-native-maps";
+import { Region } from 'react-native-maps';
 
-const useLocationRegion = () => {
+const useRegion = () => {
     const [region, setRegion] = useState<Region>();
+    const [zipCode, setZipCode] = useState<string>();
 
     useEffect(() => {
         (async () => {
@@ -34,7 +35,7 @@ const useLocationRegion = () => {
         })();
     }, []);
 
-    return region;
+    return { region, setRegion, zipCode, setZipCode };
 };
 
-export default useLocationRegion;
+export default useRegion;
