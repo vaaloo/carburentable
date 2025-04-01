@@ -60,7 +60,7 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
                 calculateDistance(region.latitude, region.longitude, b.geom.lat, b.geom.lon)
             );
         }
-        setData([baseData[0]]); //en attendant de fix le bug undefind
+        setData(stationsWithLowestPrice[0] ? [stationsWithLowestPrice[0]] : baseData); //en attendant de fix le bug undefind
 
 
 

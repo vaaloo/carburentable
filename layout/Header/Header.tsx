@@ -26,20 +26,6 @@ export default function Header({
                     <Ionicons name="locate" size={24} color="#fff" />
                 </TouchableOpacity>
             </View>
-
-            <View style={styles.sliderContainer}>
-                <Slider
-                    style={styles.slider}
-                    minimumValue={1}
-                    maximumValue={5}
-                    step={1}
-                    value={range}
-                    onValueChange={handleValueChange}
-                    minimumTrackTintColor="#fff"
-                    maximumTrackTintColor="#777"
-                    thumbTintColor="#ffffff"
-                />
-            </View>
         </View>
     );
 }
