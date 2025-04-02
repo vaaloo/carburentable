@@ -50,10 +50,10 @@ const styles = StyleSheet.create({
     },
     leftButtons: {
         flexDirection: 'column',
+        backgroundColor: 'rgba(0,0,0,0.6)',
         gap: 12,
         padding: 12,
         borderRadius: 20,
-
     },
     iconButton: {
         width: 48,

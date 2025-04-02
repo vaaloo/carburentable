@@ -4,10 +4,12 @@ import { Filtered } from "../types/Filtered";
 import useLocationRegion from "../hook/useLocationRegion";
 import parseStationPrices from "../utils/parseStationPrices";
 import calculateDistance from "../utils/calculateDistance";
-import getFuelTypeMinMaxWithStations from "../utils/getFuelInfo";
+import getFuelInfo from "../utils/getFuelInfo";
+import {FuelInfo} from "../types/FuelInfo";
 
 interface DataContextType {
     data: Station[];
+    fuelInfo: any;
     setData: React.Dispatch<React.SetStateAction<Station[]>>;
     filteredData: any;
     setFilteredData: React.Dispatch<React.SetStateAction<any>>;
@@ -21,11 +23,18 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
     const { region } = useLocationRegion();
     const [baseData, setBaseData] = useState<Station[]>([]);
     const [data, setData] = useState<Station[]>([]);
+    const [fuelInfo, setFuelInfo] = useState<Record<string, FuelInfo>>({});
     const [filteredData, setFilteredData] = useState<Filtered>({
         fuelType: "E10",
         is_best: true,
 
     });
+
+    useEffect(() => {
+        if (data?.length) {
+            setFuelInfo(getFuelInfo({ stations: data }));
+        }
+    }, [data]);
 
     useEffect(() => {
         if (!baseData.length) return;
@@ -41,7 +50,7 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
 
 
 
-        let stationsWithLowestPrice: Station[] = getFuelTypeMinMaxWithStations({
+        let stationsWithLowestPrice: Station[] = getFuelInfo({
             stations: baseData
         })[filteredData.fuelType].minStations;
 
@@ -66,7 +75,7 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
     }, [filteredData, baseData, region]);
 
     return (
-        <DataContext.Provider value={{ data, setData, filteredData, setFilteredData, setBaseData, baseData }}>
+        <DataContext.Provider value={{ data, fuelInfo, setData, filteredData, setFilteredData, setBaseData, baseData }}>
             {children}
         </DataContext.Provider>
     );
