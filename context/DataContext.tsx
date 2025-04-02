@@ -9,7 +9,7 @@ import {FuelInfo} from "../types/FuelInfo";
 
 interface DataContextType {
     data: Station[];
-    fuelInfo: FuelInfo[];
+    fuelInfo: any;
     setData: React.Dispatch<React.SetStateAction<Station[]>>;
     filteredData: any;
     setFilteredData: React.Dispatch<React.SetStateAction<any>>;
@@ -75,7 +75,7 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
     }, [filteredData, baseData, region]);
 
     return (
-        <DataContext.Provider value={{ data, fuelInfo, setData, filteredData, setFilteredData, setBaseData, baseData, fuelInfo }}>
+        <DataContext.Provider value={{ data, fuelInfo, setData, filteredData, setFilteredData, setBaseData, baseData }}>
             {children}
         </DataContext.Provider>
     );
