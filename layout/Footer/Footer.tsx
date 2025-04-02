@@ -75,19 +75,28 @@ export default function Footer({ onStationClicked }: { onStationClicked: (lat: n
 const styles = StyleSheet.create({
     footer: {
         padding: 10,
+        marginHorizontal: 10,
+        marginBottom: 10,
         bottom: 0,
         position: "absolute",
-        width: Dimensions.get("window").width,
-        borderRadius: 12,
+        left: 0,
+        right: 0,
+        borderRadius: 30,
         overflow: "hidden",
         backgroundColor: "rgba(0,0,0,0.7)",
         shadowColor: "#000",
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.3,
         shadowRadius: 6,
+        backdropFilter: 'blur(10px)',
     },
     dragZone: {
-        height: 40, // Zone où le PanResponder peut s'activer
-        backgroundColor: "transparent",
+        height: 16,
+        borderRadius: 8,
+        width: 50,
+        alignSelf: "center",
+        marginVertical: 12,
+        backgroundColor: "#ccc",
+        opacity: 0.6,
     },
 });
