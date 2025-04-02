@@ -5,15 +5,17 @@ import {Prix} from "../../types/Prix";
 import Station from "../../types/Station";
 import parseStationPrices from "../../utils/parseStationPrices";
 import openMap from "../../utils/openMap";
+import FuelPresentation from "./FuelPresentation/FuelPresentation";
 
 interface Props {
     station: Station;
+    fuelInfo: any;
     onPress?: () => void;
 }
 
-export default function StationItem({ station, onPress }: Props) {
+export default function StationItem({ station, fuelInfo, onPress }: Props) {
     const [prix, setPrix] = useState<Prix[]>([]);
-
+    console.log(fuelInfo);
     useEffect(() => {
         setPrix(parseStationPrices(station));
     }, [station]);
@@ -28,7 +30,7 @@ export default function StationItem({ station, onPress }: Props) {
 
             <View>
                 {prix && prix.map((item, i) => (
-                    <Text key={i} style={styles.fuelItem}>{item.nom} - {item.valeur} €</Text>
+                    <FuelPresentation item={item} fuelInfo={fuelInfo} key={i} />
 
                 ))}
             </View>
@@ -60,11 +62,7 @@ const styles = StyleSheet.create({
         color: "white",
         fontSize: 14,
     },
-    fuelItem: {
-        color: "#90ee90",
-        fontSize: 14,
-        marginBottom: 4,
-    },
+
     headerRow: {
         flexDirection: 'row',
         justifyContent: 'space-between',

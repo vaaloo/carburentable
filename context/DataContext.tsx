@@ -4,6 +4,7 @@ import { Filtered } from "../types/Filtered";
 import useLocationRegion from "../hook/useLocationRegion";
 import parseStationPrices from "../utils/parseStationPrices";
 import calculateDistance from "../utils/calculateDistance";
+import getFuelTypeMinMaxWithStations from "../utils/getFuelInfo";
 
 interface DataContextType {
     data: Station[];
@@ -23,6 +24,7 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
     const [filteredData, setFilteredData] = useState<Filtered>({
         fuelType: "E10",
         is_best: true,
+
     });
 
     useEffect(() => {
@@ -37,20 +39,11 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
             return;
         }
 
-        let lowestPrice = Infinity;
-        let stationsWithLowestPrice: Station[] = [];
 
-        for (const station of baseData) {
-            const prix = parseStationPrices(station);
-            for (const fuel of prix) {
-                if (fuel.nom === filteredData.fuelType && fuel.valeur as unknown as number < lowestPrice) {
-                    lowestPrice = fuel.valeur as unknown as number;
-                    stationsWithLowestPrice = [station];
-                } else if (fuel.nom === filteredData.fuelType && fuel.valeur as unknown as number === lowestPrice) {
-                    stationsWithLowestPrice.push(station);
-                }
-            }
-        }
+
+        let stationsWithLowestPrice: Station[] = getFuelTypeMinMaxWithStations({
+            stations: baseData
+        })[filteredData.fuelType].minStations;
 
         if (stationsWithLowestPrice.length > 1 && region) {
             stationsWithLowestPrice.sort((a, b) =>

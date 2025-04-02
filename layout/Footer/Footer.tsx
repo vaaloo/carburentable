@@ -5,14 +5,16 @@ import StationItem from "../../components/StationItem/StationItem";
 import { useData } from "../../context/DataContext";
 import { Filtered } from "../../types/Filtered";
 import Station from "../../types/Station";
+import getFuelInfo from "../../utils/getFuelInfo";
 
 export default function Footer({ onStationClicked }: { onStationClicked: (lat: number, lon: number) => void }) {
     const { data, setFilteredData } = useData();
     const [height] = useState(new Animated.Value(Dimensions.get("window").height * 0.25));
     const touchStartY = useRef(0);
     const dataReel = data.filter((item) => item.isVisible);
-
-
+    const fuelInfo = getFuelInfo({
+        stations: data
+    })
 
     const panResponder = useRef(
         PanResponder.create({
@@ -60,7 +62,7 @@ export default function Footer({ onStationClicked }: { onStationClicked: (lat: n
                         onStartShouldSetResponderCapture={() => false}
                     >
                         {dataReel.map((station, index) => (
-                            <StationItem key={index} station={station} onPress={() => onStationClicked(station.geom.lat, station.geom.lon)} />
+                            <StationItem key={index} station={station} fuelInfo={fuelInfo} onPress={() => onStationClicked(station.geom.lat, station.geom.lon)} />
                         ))}
                     </ScrollView>
                 ): <Text> Loading ...</Text>}
