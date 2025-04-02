@@ -44,4 +44,9 @@ const styles = StyleSheet.create({
         fontSize: 13,
         color: "#bbb",
     },
+    itineraryIcon: {
+        padding: 4,
+        borderRadius: 20,
+        backgroundColor: "#2a2a2a",
+    },
 });
