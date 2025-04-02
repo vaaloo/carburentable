@@ -6,7 +6,7 @@ interface FuelPresentationProps {
     fuelInfo:any;
 }
 
-export default function FuelPresentation({ item, fuelInfo }: FuelPresentationProps) {
+export default function FuelPresentation({ item, fuelInfo }: FuelPresentationProps) { // vrm pas la version definitive j'ai mis vite fais du css comme ca mais refais le toi
     return (
         <View style={styles.container}>
             <Text style={styles.title}>{item.nom} : {item.valeur}€</Text>
