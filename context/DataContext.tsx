@@ -4,10 +4,9 @@ import {Filtered} from "../types/Filtered";
 import useLocationRegion from "../hook/useLocationRegion";
 import parseStationPrices from "../utils/parseStationPrices";
 import calculateDistance from "../utils/calculateDistance";
+import StationWithVisibility from "../types/StationWithVisibility";
 
-interface StationWithVisibility extends Station {
-    isVisible: boolean;
-}
+
 
 interface DataContextType {
     data: StationWithVisibility[];

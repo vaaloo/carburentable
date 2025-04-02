@@ -5,17 +5,10 @@ import Slider from '@react-native-community/slider';
 import Filter from "../../components/Filter/Filter";
 
 export default function Header({
-  onRecenter, onRangeChange
+  onRecenter
 }: {
   onRecenter: () => void;
-  onRangeChange: (value: number) => void;
 }) {
-    const [range, setRange] = useState(1);
-
-    const handleValueChange = (value: number) => {
-        setRange(value);
-        onRangeChange(value);
-    };
 
     return (
         <View style={styles.header}>

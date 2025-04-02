@@ -4,11 +4,13 @@ import { StyleSheet, View, ActivityIndicator, Text } from 'react-native';
 import useLocationRegion from "../../hook/useLocationRegion";
 import { useData } from "../../context/DataContext";
 import fetchStations from "../../utils/fetchStations";
+import StationMarker from "../StationMarker/StationMarker";
+import {handleRegionChange} from "../../utils/handleRegionChange";
 
-const Map = forwardRef(({ radius }: { radius: number }, ref: ForwardedRef<MapView>) => {
+const Map = forwardRef<MapView>((props, ref) => {
     const { region, setZipCode, zipCode } = useLocationRegion();
     const { data, filteredData } = useData();
-    const [selectedMarkerId, setSelectedMarkerId] = useState<string | null>(null);
+    const [selectedMarkerId, setSelectedMarkerId] = useState<number | null>(null);
     const zipDebounce = useRef<NodeJS.Timeout | null>(null);
     const { setBaseData } = useData();
 
@@ -32,51 +34,6 @@ const Map = forwardRef(({ radius }: { radius: number }, ref: ForwardedRef<MapVie
         }
     }, [data]);
 
-    const renderMarker = (item: any, index: number) => {
-        const isBestStation = item.isVisible === true;
-
-        return (
-            <Marker
-                key={item.id}
-                identifier={item.id}
-                coordinate={{
-                    latitude: typeof item.geom.lat === 'string' ? parseFloat(item.geom.lat) : item.geom.lat,
-                    longitude: typeof item.geom.lon === 'string' ? parseFloat(item.geom.lon) : item.geom.lon,
-                }}
-                pinColor={isBestStation ? 'green' : 'gray'}
-                zIndex={isBestStation ? 2 : 1}
-                tracksViewChanges={false}
-                onPress={() => setSelectedMarkerId(item.id)}
-                ref={markerRef => {
-                    if (markerRef && filteredData.is_best && item.id === selectedMarkerId) {
-                        setTimeout(() => markerRef.showCallout(), 500);
-                    }
-                }}
-            >
-                {isBestStation ? (
-                    <View style={styles.bestMarkerContainer}>
-                        <View style={styles.bestMarker} />
-                    </View>
-                ) : (
-                    <View style={styles.regularMarkerContainer}>
-                        <View style={styles.regularMarker} />
-                    </View>
-                )}
-                <Callout>
-                    <View style={styles.calloutContainer}>
-                        <Text style={styles.calloutTitle}>{item.marque || 'Station'}</Text>
-                        <Text>{item.adresse || ''}</Text>
-                        <Text>{item.ville || ''}</Text>
-                        {isBestStation && (
-                            <Text style={styles.bestPriceText}>
-                                Meilleur prix {filteredData.fuelType}
-                            </Text>
-                        )}
-                    </View>
-                </Callout>
-            </Marker>
-        );
-    };
 
     if (!region) {
         return (
@@ -86,27 +43,6 @@ const Map = forwardRef(({ radius }: { radius: number }, ref: ForwardedRef<MapVie
         );
     }
 
-    const handleRegionChange = (r: LatLng) => {
-        const lat = r.latitude;
-        const lon = r.longitude;
-
-        // Debounce l’appel API + setZipCode
-        if (zipDebounce.current) clearTimeout(zipDebounce.current);
-
-        zipDebounce.current = setTimeout(() => {
-            const url = `https://api-adresse.data.gouv.fr/reverse/?lon=${lon}&lat=${lat}`;
-            fetch(url)
-                .then((response) => response.json())
-                .then((data) => {
-                    const newZip = data.features[0]?.properties?.postcode;
-                    if (newZip) {
-                        console.log("⛽️ Nouveau code postal :", newZip);
-                        setZipCode(newZip); // Ce zip déclenche useFetchStations dans le DataContext
-                    }
-                })
-                .catch((err) => console.error("Erreur reverse geocoding :", err));
-        }, 1500); // délai de 1.5s
-    };
 
     return (
         <View style={styles.container}>
@@ -118,11 +54,19 @@ const Map = forwardRef(({ radius }: { radius: number }, ref: ForwardedRef<MapVie
                         showsPointsOfInterest={false}
                         showsUserLocation={true}
                         showsMyLocationButton={false}
-                        onRegionChange={handleRegionChange}
+                        onRegionChange={(r) => handleRegionChange(r, setZipCode, zipDebounce)}
                         loadingEnabled={true}
                         showsCompass={false}
                     >
-                    {data && data.map(renderMarker)}
+                    {data && data.map((item, index) => (
+                        <StationMarker
+                            key={item.id}
+                            item={item}
+                            selectedMarkerId={selectedMarkerId}
+                            setSelectedMarkerId={setSelectedMarkerId}
+                            filteredData={filteredData}
+                        />
+                    ))}
                 </MapView>
             ) : (
                 <View style={styles.loadingContainer}>
