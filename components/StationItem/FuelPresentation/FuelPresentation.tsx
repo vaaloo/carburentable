@@ -1,9 +1,10 @@
 import { View, Text, StyleSheet } from "react-native";
 import { Prix } from "../../../types/Prix";
-import { useData } from "../../../context/DataContext";
+import {useData} from "../../../context/DataContext";
 
 interface FuelPresentationProps {
     item: Prix;
+    fuelInfo:any;
 }
 
 export default function FuelPresentation({ item }: FuelPresentationProps) {
@@ -33,6 +34,7 @@ const styles = StyleSheet.create({
     container: {
         padding: 10,
         marginVertical: 6,
+        marginHorizontal: 0,
         borderRadius: 10,
         backgroundColor: "#292929",
         shadowColor: "#000",
@@ -53,10 +55,5 @@ const styles = StyleSheet.create({
     stats: {
         fontSize: 13,
         color: "#bbb",
-    },
-    itineraryIcon: {
-        padding: 4,
-        borderRadius: 20,
-        backgroundColor: "#2a2a2a",
     },
 });
