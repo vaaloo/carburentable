@@ -1,20 +1,20 @@
-import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useEffect, useMemo } from 'react';
 import Station from "../types/Station";
 import { Filtered } from "../types/Filtered";
 import useLocationRegion from "../hook/useLocationRegion";
 import parseStationPrices from "../utils/parseStationPrices";
 import calculateDistance from "../utils/calculateDistance";
 import getFuelInfo from "../utils/getFuelInfo";
-import {FuelInfo} from "../types/FuelInfo";
+import { FuelInfo } from "../types/FuelInfo";
 
 interface DataContextType {
     data: Station[];
-    fuelInfo: any;
+    fuelInfo: Record<string, FuelInfo>;
     setData: React.Dispatch<React.SetStateAction<Station[]>>;
-    filteredData: any;
-    setFilteredData: React.Dispatch<React.SetStateAction<any>>;
-    baseData: any;
-    setBaseData: React.Dispatch<React.SetStateAction<any>>;
+    filteredData: Filtered;
+    setFilteredData: React.Dispatch<React.SetStateAction<Filtered>>;
+    baseData: Station[];
+    setBaseData: React.Dispatch<React.SetStateAction<Station[]>>;
 }
 
 const DataContext = createContext<DataContextType | undefined>(undefined);
@@ -27,12 +27,12 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
     const [filteredData, setFilteredData] = useState<Filtered>({
         fuelType: "E10",
         is_best: true,
-
     });
 
     useEffect(() => {
-        if (data?.length) {
-            setFuelInfo(getFuelInfo({ stations: data }));
+        if (data.length) {
+            const newFuelInfo = getFuelInfo({ stations: data });
+            setFuelInfo(newFuelInfo);
         }
     }, [data]);
 
@@ -48,11 +48,8 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
             return;
         }
 
-
-
-        let stationsWithLowestPrice: Station[] = getFuelInfo({
-            stations: baseData
-        })[filteredData.fuelType].minStations;
+        const fuelInfo = getFuelInfo({ stations: baseData });
+        let stationsWithLowestPrice: Station[] = fuelInfo[filteredData.fuelType]?.minStations || [];
 
         if (stationsWithLowestPrice.length > 1 && region) {
             stationsWithLowestPrice.sort((a, b) =>
