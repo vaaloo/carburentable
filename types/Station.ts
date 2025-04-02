@@ -35,4 +35,5 @@ export default interface Station {
     code_departement: string;
     region: string;
     code_region: string;
+    isVisible?: boolean;
 }

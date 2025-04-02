@@ -6,15 +6,10 @@ import Header from './layout/Header/Header';
 import Map from './components/Map/Map';
 import * as Location from 'expo-location';
 import Footer from "./layout/Footer/Footer";
-import {Colors} from "react-native/Libraries/NewAppScreen";
 import {DataProvider} from "./context/DataContext";
-import {LocationProvider} from "./context/LocationContext";
 
 export default function App() {
     const mapRef = useRef<MapView>(null);
-    const [radius, setRadius] = useState(50);
-
-    const handleRangeChange = (km: number) => setRadius(km * 1000);
 
     const handleRecenter = async () => {
         let { status } = await Location.requestForegroundPermissionsAsync();
@@ -22,8 +17,8 @@ export default function App() {
             mapRef.current?.animateToRegion({
                 latitude: 48.8566,
                 longitude: 2.3522,
-                latitudeDelta: 0.01,
-                longitudeDelta: 0.01,
+                latitudeDelta: 0.05,
+                longitudeDelta: 0.05
             });
             return;
         }
@@ -32,8 +27,8 @@ export default function App() {
         mapRef.current?.animateToRegion({
             latitude: location.coords.latitude,
             longitude: location.coords.longitude,
-            latitudeDelta: 0.01,
-            longitudeDelta: 0.01,
+            latitudeDelta: 0.05,
+            longitudeDelta: 0.05,
         });
     };
 
@@ -51,8 +46,8 @@ export default function App() {
 
             <View style={styles.container}>
                 <StatusBar style="auto" />
-                <Header onRecenter={handleRecenter} onRangeChange={handleRangeChange} />
-                <Map ref={mapRef} radius={radius} />
+                <Header onRecenter={handleRecenter} />
+                <Map ref={mapRef} />
                 <Footer onStationClicked={onStationClicked}/>
             </View>
 
