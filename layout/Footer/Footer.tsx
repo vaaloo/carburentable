@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
         backdropFilter: 'blur(10px)',
     },
     dragZone: {
-        height: 16,
+        height: 10,
         borderRadius: 8,
         width: 50,
         alignSelf: "center",
