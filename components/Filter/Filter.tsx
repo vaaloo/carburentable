@@ -38,20 +38,25 @@ export default function Filter() {
                 selectedValue={selectedFuelType}
                 onValueChange={(itemValue) => setSelectedFuelType(itemValue)}
                 mode="dropdown"
+                style={{ color: "#ffffff", backgroundColor: "#2a2a2a", borderRadius: 8 }}
             >
                 {allFuelTypes.map((fuelType, index) => (
-                    <Picker.Item key={index} label={fuelType} value={fuelType} />
+                    <Picker.Item
+                        key={index}
+                        label={fuelType}
+                        value={fuelType}
+                        color="#ffffff"
+                    />
                 ))}
             </Picker>
-
-
         </View>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-        width: 100,
-        backgroundColor: "#fff",
+        width: 150,
+        backgroundColor: "#2a2a2a",
+        borderRadius: 8,
     },
 });

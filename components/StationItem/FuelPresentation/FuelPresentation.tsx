@@ -9,7 +9,7 @@ interface FuelPresentationProps {
 export default function FuelPresentation({ item, fuelInfo }: FuelPresentationProps) { // vrm pas la version definitive j'ai mis vite fais du css comme ca mais refais le toi
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>{item.nom} : {item.valeur}€</Text>
+            <Text style={styles.title}>⛽️ {item.nom} : {item.valeur}€</Text>
             <Text style={styles.stats}>🔻 {fuelInfo[item.nom].min}€  🔺 {fuelInfo[item.nom].max}€  📊 {fuelInfo[item.nom].avg.toFixed(2)}€</Text>
         </View>
     );
@@ -17,26 +17,28 @@ export default function FuelPresentation({ item, fuelInfo }: FuelPresentationPro
 
 const styles = StyleSheet.create({
     container: {
-        padding: 8,
-        margin: 6,
-        borderRadius: 8,
-        backgroundColor: "#f8f9fa",
+        padding: 10,
+        marginVertical: 6,
+        marginHorizontal: 0,
+        borderRadius: 10,
+        backgroundColor: "#292929",
         shadowColor: "#000",
         shadowOffset: { width: 0, height: 1 },
         shadowOpacity: 0.1,
         shadowRadius: 2,
         elevation: 2,
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "space-between",
+        flexDirection: "column",
+        alignItems: "flex-start",
+        justifyContent: "center",
     },
     title: {
-        fontSize: 14,
-        fontWeight: "bold",
-        color: "#333",
+        fontSize: 16,
+        fontWeight: "600",
+        color: "#f0f0f0",
+        marginBottom: 4,
     },
     stats: {
-        fontSize: 12,
-        color: "#555",
+        fontSize: 13,
+        color: "#bbb",
     },
 });

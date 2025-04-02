@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useState, useRef, useEffect } from 'react';
+import { Animated, View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import Slider from '@react-native-community/slider';
 import Filter from "../../components/Filter/Filter";
 
 export default function Header({
@@ -9,17 +8,29 @@ export default function Header({
 }: {
   onRecenter: () => void;
 }) {
+    const [filterVisible, setFilterVisible] = useState(false);
+    const opacity = useRef(new Animated.Value(0)).current;
+
+    useEffect(() => {
+      Animated.timing(opacity, {
+        toValue: filterVisible ? 1 : 0,
+        duration: 250,
+        useNativeDriver: true,
+      }).start();
+    }, [filterVisible]);
 
     return (
         <View style={styles.header}>
             <View style={styles.leftButtons}>
-                <TouchableOpacity style={styles.iconButton}>
-                    <Ionicons name="filter" size={24} color="#fff" />
+                <TouchableOpacity style={styles.iconButton} onPress={() => setFilterVisible(!filterVisible)}>
+                    <Ionicons name={filterVisible ? "close" : "filter"} size={24} color="#fff" />
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.iconButton} onPress={onRecenter}>
                     <Ionicons name="locate" size={24} color="#fff" />
                 </TouchableOpacity>
-                <Filter/>
+                <Animated.View style={{ opacity }}>
+                  {filterVisible && <Filter />}
+                </Animated.View>
             </View>
         </View>
     );
@@ -39,7 +50,11 @@ const styles = StyleSheet.create({
     },
     leftButtons: {
         flexDirection: 'column',
+        backgroundColor: 'rgba(0,0,0,0.6)',
         gap: 12,
+        padding: 12,
+        borderRadius: 20,
+
     },
     iconButton: {
         width: 48,
@@ -48,19 +63,5 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0,0,0,0.6)',
         justifyContent: 'center',
         alignItems: 'center',
-    },
-    sliderContainer: {
-        width: 60,
-        height: 150,
-        backgroundColor: 'rgba(0,0,0,0.6)',
-        borderRadius: 30,
-        justifyContent: 'center',
-        alignItems: 'center',
-        paddingVertical: 12,
-    },
-    slider: {
-        width: 120,
-        height: 40,
-        transform: [{ rotate: '-90deg' }],
     },
 });

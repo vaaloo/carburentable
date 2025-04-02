@@ -26,12 +26,14 @@ export default function StationItem({ station, fuelInfo, onPress }: Props) {
                 <Text style={styles.title}>{station.ville}</Text>
                 <FontAwesome5 name="gas-pump" size={20} color="#90ee90" />
             </View>
-            <Text style={styles.address}>{station.adresse}</Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 6 }}>
+                <Ionicons name="location-sharp" size={16} color="#ccc" style={{ marginRight: 6 }} />
+                <Text style={styles.address}>{station.adresse}</Text>
+            </View>
 
             <View>
                 {prix && prix.map((item, i) => (
                     <FuelPresentation item={item} fuelInfo={fuelInfo} key={i} />
-
                 ))}
             </View>
             <Button title="On y va" onPress={() => openMap(station)} />
@@ -41,22 +43,28 @@ export default function StationItem({ station, fuelInfo, onPress }: Props) {
 
 const styles = StyleSheet.create({
     container: {
-        padding: 14,
-        borderRadius: 10,
-        backgroundColor: "rgba(255,255,255,0.05)",
-        width: "90%",
-        marginBottom: 10,
-        left: "5%"
+        padding: 16,
+        borderRadius: 12,
+        backgroundColor: "#1e1e1e",
+        width: "92%",
+        marginBottom: 14,
+        left: "4%",
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.3,
+        shadowRadius: 5,
+        elevation: 6,
     },
     title: {
-        color: "white",
-        fontSize: 18,
+        color: "#90ee90",
+        fontSize: 20,
         fontWeight: "bold",
     },
     address: {
-        color: "white",
-        fontSize: 16,
+        color: "#ccc",
+        fontSize: 15,
         marginBottom: 8,
+        marginTop: 2,
     },
     hours: {
         color: "white",
