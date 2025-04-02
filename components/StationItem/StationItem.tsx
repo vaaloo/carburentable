@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Text, TouchableOpacity, View, StyleSheet, Button} from "react-native";
+import {Text, TouchableOpacity, View, StyleSheet} from "react-native";
 import { Ionicons, FontAwesome5 } from '@expo/vector-icons';
 import {Prix} from "../../types/Prix";
 import Station from "../../types/Station";
@@ -24,7 +24,12 @@ export default function StationItem({ station, fuelInfo, onPress }: Props) {
         <TouchableOpacity style={styles.container} onPress={onPress}>
             <View style={styles.headerRow}>
                 <Text style={styles.title}>{station.ville}</Text>
-                <FontAwesome5 name="gas-pump" size={20} color="#90ee90" />
+                <View style={styles.iconGroup}>
+                    <FontAwesome5 name="gas-pump" size={20} color="#90ee90" />
+                    <TouchableOpacity onPress={() => openMap(station)} style={styles.itineraryIcon}>
+                        <Ionicons name="navigate" size={20} color="#90ee90" />
+                    </TouchableOpacity>
+                </View>
             </View>
             <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 6 }}>
                 <Ionicons name="location-sharp" size={16} color="#ccc" style={{ marginRight: 6 }} />
@@ -36,7 +41,6 @@ export default function StationItem({ station, fuelInfo, onPress }: Props) {
                     <FuelPresentation item={item} fuelInfo={fuelInfo} key={i} />
                 ))}
             </View>
-            <Button title="On y va" onPress={() => openMap(station)} />
         </TouchableOpacity>
     );
 }
@@ -76,5 +80,14 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         marginBottom: 4,
+    },
+    iconGroup: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    itineraryIcon: {
+        marginLeft: 8,
+        padding: 4,
+        borderRadius: 20,
     },
 });

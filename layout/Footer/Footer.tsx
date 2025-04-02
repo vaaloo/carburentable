@@ -27,7 +27,7 @@ export default function Footer({ onStationClicked }: { onStationClicked: (lat: n
                 const newHeight = Math.max(
                     Dimensions.get("window").height * 0.25,
                     // @ts-ignore
-                    Math.min(Dimensions.get("window").height * 0.4, height._value - gestureState.dy) //ici tjr l'erreur de con
+                    Math.min(Dimensions.get("window").height * 0.4, height._value - gestureState.dy)
                 );
                 height.setValue(newHeight);
             },
@@ -62,7 +62,6 @@ export default function Footer({ onStationClicked }: { onStationClicked: (lat: n
                         keyboardShouldPersistTaps="handled"
                         onStartShouldSetResponderCapture={() => false}
                     >
-                        {console.log(dataReel)}
                         {dataReel.length > 0 ?
                             dataReel.map((station, index) => (
                                 <StationItem
@@ -70,12 +69,6 @@ export default function Footer({ onStationClicked }: { onStationClicked: (lat: n
                                     station={station}
                                     fuelInfo={fuelInfo}
                                     onPress={() => {
-                                        Animated.spring(height, {
-                                            toValue: Dimensions.get("window").height * 0.25,
-                                            useNativeDriver: false,
-                                        }).start(() => {
-                                            setFilteredData((prev: Filtered) => ({ ...prev, is_best: true }));
-                                        });
                                         onStationClicked(station.geom.lat, station.geom.lon);
                                     }}
                                 />
