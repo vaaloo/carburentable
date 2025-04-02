@@ -23,7 +23,7 @@ export default function Footer({ onStationClicked }: { onStationClicked: (lat: n
             onPanResponderMove: (evt, gestureState) => {
                 const newHeight = Math.max(
                     Dimensions.get("window").height * 0.25,
-                    Math.min(Dimensions.get("window").height * 0.5, height._value - gestureState.dy)
+                    Math.min(Dimensions.get("window").height * 0.5, height._value - gestureState.dy) //ici tjr l'erreur de con
                 );
                 height.setValue(newHeight);
             },

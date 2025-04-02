@@ -1,16 +1,13 @@
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import Station from "../types/Station";
-import {Filtered} from "../types/Filtered";
+import { Filtered } from "../types/Filtered";
 import useLocationRegion from "../hook/useLocationRegion";
 import parseStationPrices from "../utils/parseStationPrices";
 import calculateDistance from "../utils/calculateDistance";
-import StationWithVisibility from "../types/StationWithVisibility";
-
-
 
 interface DataContextType {
-    data: StationWithVisibility[];
-    setData: React.Dispatch<React.SetStateAction<StationWithVisibility[]>>;
+    data: Station[];
+    setData: React.Dispatch<React.SetStateAction<Station[]>>;
     filteredData: any;
     setFilteredData: React.Dispatch<React.SetStateAction<any>>;
     baseData: any;
@@ -62,7 +59,7 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
             );
         }
 
-        const stationsWithVisibility: StationWithVisibility[] = baseData.map(station => {
+        const stationsWithVisibility: Station[] = baseData.map(station => {
             const isBestStation = stationsWithLowestPrice.length > 0 &&
                 station.id === stationsWithLowestPrice[0].id;
 

@@ -1,10 +1,8 @@
 import Station from "../types/Station";
 import parseStationPrices from "./parseStationPrices";
 
-interface StationWithVisibility extends Station {
-    isVisible: boolean;
-}
-export default function getAllFuelTypeWithStationArray ({stations}: {stations: StationWithVisibility[]}) {
+
+export default function getAllFuelTypeWithStationArray ({stations}: {stations: Station[]}) {
 
     const fuelTypes = new Set<string>();
     if (!stations) return [];

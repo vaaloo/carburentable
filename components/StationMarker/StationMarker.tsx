@@ -1,20 +1,20 @@
 import React from 'react';
 import { Marker, Callout } from 'react-native-maps';
 import { View, StyleSheet } from 'react-native';
-import StationWithVisibility from "../../types/StationWithVisibility";
 import {Filtered} from "../../types/Filtered";
 import PopupMarker from "./PopupMarker/PopupMarker";
+import Station from "../../types/Station";
 
 
 interface StationMarkerProps {
-    item: StationWithVisibility;
+    item: Station;
     selectedMarkerId: number | null;
     setSelectedMarkerId: (id: number) => void;
     filteredData: Filtered;
 }
 
 const StationMarker: React.FC<StationMarkerProps> = ({ item, selectedMarkerId, setSelectedMarkerId, filteredData }) => {
-    const isBestStation = item.isVisible;
+    const isBestStation = item.isVisible || false;
 
     return (
         <Marker

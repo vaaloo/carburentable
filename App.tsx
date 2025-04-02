@@ -17,8 +17,8 @@ export default function App() {
             mapRef.current?.animateToRegion({
                 latitude: 48.8566,
                 longitude: 2.3522,
-                latitudeDelta: 0.01,
-                longitudeDelta: 0.01,
+                latitudeDelta: 0.05,
+                longitudeDelta: 0.05
             });
             return;
         }
@@ -27,8 +27,8 @@ export default function App() {
         mapRef.current?.animateToRegion({
             latitude: location.coords.latitude,
             longitude: location.coords.longitude,
-            latitudeDelta: 0.01,
-            longitudeDelta: 0.01,
+            latitudeDelta: 0.05,
+            longitudeDelta: 0.05,
         });
     };
 
