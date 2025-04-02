@@ -1,17 +1,18 @@
 import React, { useRef, useState } from "react";
-import { Animated, Dimensions, PanResponder, StyleSheet, ScrollView, View } from "react-native";
+import {Animated, Dimensions, PanResponder, StyleSheet, ScrollView, View, Text, Platform, Linking} from "react-native";
 import { BlurView } from "expo-blur";
 import StationItem from "../../components/StationItem/StationItem";
 import { useData } from "../../context/DataContext";
 import { Filtered } from "../../types/Filtered";
+import Station from "../../types/Station";
 
 export default function Footer({ onStationClicked }: { onStationClicked: (lat: number, lon: number) => void }) {
     const { data, setFilteredData } = useData();
     const [height] = useState(new Animated.Value(Dimensions.get("window").height * 0.25));
     const touchStartY = useRef(0);
-
-
     const dataReel = data.filter((item) => item.isVisible);
+
+
 
     const panResponder = useRef(
         PanResponder.create({
@@ -47,21 +48,23 @@ export default function Footer({ onStationClicked }: { onStationClicked: (lat: n
         })
     ).current;
 
-    if (!data) return null;
 
     return (
         <Animated.View style={[styles.footer, { height }]} {...panResponder.panHandlers}>
             <BlurView intensity={30} tint="dark" style={StyleSheet.absoluteFill}>
                 <View style={styles.dragZone} />
-                <ScrollView
-                    nestedScrollEnabled
-                    keyboardShouldPersistTaps="handled"
-                    onStartShouldSetResponderCapture={() => false}
-                >
-                    {dataReel.map((station, index) => (
-                        <StationItem key={index} station={station} onPress={() => onStationClicked(station.geom.lat, station.geom.lon)} />
-                    ))}
-                </ScrollView>
+                {dataReel ? (
+                    <ScrollView
+                        nestedScrollEnabled
+                        keyboardShouldPersistTaps="handled"
+                        onStartShouldSetResponderCapture={() => false}
+                    >
+                        {dataReel.map((station, index) => (
+                            <StationItem key={index} station={station} onPress={() => onStationClicked(station.geom.lat, station.geom.lon)} />
+                        ))}
+                    </ScrollView>
+                ): <Text> Loading ...</Text>}
+
             </BlurView>
         </Animated.View>
     );
