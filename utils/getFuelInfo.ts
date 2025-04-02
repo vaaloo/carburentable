@@ -1,13 +1,8 @@
 import Station from "../types/Station";
 import parseStationPrices from "./parseStationPrices";
+import {FuelInfo} from "../types/FuelInfo";
 
-type FuelInfo = {
-    min: number;
-    max: number;
-    avg: number;
-    minStations: Station[];
-    maxStations: Station[];
-};
+
 
 export default function getFuelInfo({ stations }: { stations: Station[] }) {
     if (!stations) return {};

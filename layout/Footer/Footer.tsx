@@ -12,9 +12,7 @@ export default function Footer({ onStationClicked }: { onStationClicked: (lat: n
     const [height] = useState(new Animated.Value(Dimensions.get("window").height * 0.25));
     const touchStartY = useRef(0);
     const dataReel = data.filter((item) => item.isVisible);
-    const fuelInfo = getFuelInfo({
-        stations: data
-    })
+
 
     const panResponder = useRef(
         PanResponder.create({
@@ -62,12 +60,12 @@ export default function Footer({ onStationClicked }: { onStationClicked: (lat: n
                         keyboardShouldPersistTaps="handled"
                         onStartShouldSetResponderCapture={() => false}
                     >
+
                         {dataReel.length > 0 ?
                             dataReel.map((station, index) => (
                                 <StationItem
                                     key={index}
                                     station={station}
-                                    fuelInfo={fuelInfo}
                                     onPress={() => {
                                         onStationClicked(station.geom.lat, station.geom.lon);
                                     }}

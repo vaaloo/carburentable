@@ -9,13 +9,11 @@ import FuelPresentation from "./FuelPresentation/FuelPresentation";
 
 interface Props {
     station: Station;
-    fuelInfo: any;
     onPress?: () => void;
 }
 
-export default function StationItem({ station, fuelInfo, onPress }: Props) {
+export default function StationItem({ station, onPress }: Props) {
     const [prix, setPrix] = useState<Prix[]>([]);
-    console.log(fuelInfo);
     useEffect(() => {
         setPrix(parseStationPrices(station));
     }, [station]);
@@ -38,7 +36,7 @@ export default function StationItem({ station, fuelInfo, onPress }: Props) {
 
             <View>
                 {prix && prix.map((item, i) => (
-                    <FuelPresentation item={item} fuelInfo={fuelInfo} key={i} />
+                    <FuelPresentation item={item} key={i} />
                 ))}
             </View>
         </TouchableOpacity>
