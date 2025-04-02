@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from "react";
-import { Text, TouchableOpacity, View, StyleSheet } from "react-native";
+import {Text, TouchableOpacity, View, StyleSheet, Button} from "react-native";
 import { Ionicons, FontAwesome5 } from '@expo/vector-icons';
 import {Prix} from "../../types/Prix";
 import Station from "../../types/Station";
 import parseStationPrices from "../../utils/parseStationPrices";
+import openMap from "../../utils/openMap";
 
 interface Props {
     station: Station;
@@ -31,6 +32,7 @@ export default function StationItem({ station, onPress }: Props) {
 
                 ))}
             </View>
+            <Button title="On y va" onPress={() => openMap(station)} />
         </TouchableOpacity>
     );
 }

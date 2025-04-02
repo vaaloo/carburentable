@@ -17,7 +17,7 @@ interface DataContextType {
 const DataContext = createContext<DataContextType | undefined>(undefined);
 
 export const DataProvider = ({ children }: { children: ReactNode }) => {
-    const { region, zipCode } = useLocationRegion();
+    const { region } = useLocationRegion();
     const [baseData, setBaseData] = useState<Station[]>([]);
     const [data, setData] = useState<Station[]>([]);
     const [filteredData, setFilteredData] = useState<Filtered>({
