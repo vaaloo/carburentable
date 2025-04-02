@@ -1,4 +1,4 @@
-# ⛽️ Carburentable
+# ⛽️ CarbuRentable
 
 > Application mobile React Native — Projet de 2ᵉ année BUT Informatique
 
