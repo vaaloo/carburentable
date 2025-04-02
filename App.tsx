@@ -1,5 +1,5 @@
-import React, { useRef, useState } from 'react';
-import { StyleSheet, View, Dimensions, Text } from 'react-native';
+import React, {useEffect, useLayoutEffect, useRef, useState} from 'react';
+import {StyleSheet, View, Dimensions, Text, Animated} from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import MapView from 'react-native-maps';
 import Header from './layout/Header/Header';
@@ -10,7 +10,6 @@ import {DataProvider} from "./context/DataContext";
 
 export default function App() {
     const mapRef = useRef<MapView>(null);
-
     const handleRecenter = async () => {
         let { status } = await Location.requestForegroundPermissionsAsync();
         if (status !== 'granted') {
@@ -24,6 +23,7 @@ export default function App() {
         }
 
         let location = await Location.getCurrentPositionAsync({});
+        console.log(location);
         mapRef.current?.animateToRegion({
             latitude: location.coords.latitude,
             longitude: location.coords.longitude,
