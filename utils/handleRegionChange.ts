@@ -1,6 +1,7 @@
-import { LatLng } from "react-native-maps";
+import * as Location from 'expo-location';
+import { LatLng } from 'react-native-maps';
 
-export const handleRegionChange = (
+export const handleRegionChange = async (
     r: LatLng,
     setZipCode: (zip: string) => void,
     zipDebounce: React.MutableRefObject<NodeJS.Timeout | null>
@@ -10,17 +11,19 @@ export const handleRegionChange = (
 
     if (zipDebounce.current) clearTimeout(zipDebounce.current);
 
-    zipDebounce.current = setTimeout(() => {
-        const url = `https://api-adresse.data.gouv.fr/reverse/?lon=${lon}&lat=${lat}`;
-        fetch(url)
-            .then((response) => response.json())
-            .then((data) => {
-                const newZip = data.features[0]?.properties?.postcode;
+    zipDebounce.current = setTimeout(async () => {
+        try {
+            const addresses = await Location.reverseGeocodeAsync({ latitude: lat, longitude: lon });
+            if (addresses.length > 0) {
+                console.log(addresses);
+                const newZip = addresses[0].postalCode;
                 if (newZip) {
                     console.log("⛽️ Nouveau code postal :", newZip);
-                    setZipCode(newZip); // Ce zip déclenche useFetchStations dans le DataContext
+                    setZipCode(newZip);
                 }
-            })
-            .catch((err) => console.error("Erreur reverse geocoding :", err));
-    }, 1500); // délai de 1.5s
+            }
+        } catch (err) {
+            console.error("Erreur reverse geocoding :", err);
+        }
+    }, 1500);
 };
