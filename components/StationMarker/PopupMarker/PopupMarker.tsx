@@ -1,33 +1,19 @@
 import { Text, View, StyleSheet, Button, Linking, Platform } from "react-native";
 import React from "react";
+import Station from "../../../types/Station";
 
 interface PopupMarkerProps {
-    item: { adresse?: string; ville?: string };
-    isBestStation: boolean;
+    item: Station;
     fuelType?: string;
 }
 
-export default function PopupMarker({ item, isBestStation, fuelType }: PopupMarkerProps) {
-
-    const openMap = () => {
-        const address = encodeURIComponent(`${item.adresse}, ${item.ville}`);
-        const url = Platform.select({
-            ios: `maps:0,0?q=${address}`,
-            android: `geo:0,0?q=${address}`
-        });
-
-        if (url) {
-            Linking.openURL(url).catch(err => console.error("Erreur lors de l'ouverture de la carte :", err));
-        }
-    };
-
-
+export default function PopupMarker({ item, fuelType }: PopupMarkerProps) {
     return (
         <View style={styles.calloutContainer}>
             <Text style={styles.calloutTitle}>Station</Text>
             <Text>{item.adresse || ''}</Text>
             <Text>{item.ville || ''}</Text>
-            {isBestStation && (
+            {item.isBest && (
                 <Text style={styles.bestPriceText}>
                     Meilleur prix {fuelType}
                 </Text>

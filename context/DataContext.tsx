@@ -21,34 +21,40 @@ const DataContext = createContext<DataContextType | undefined>(undefined);
 
 export const DataProvider = ({ children }: { children: ReactNode }) => {
     const { region } = useLocationRegion();
-    const [baseData, setBaseData] = useState<Station[]>([]);
+    const [baseData, setBaseData] = useState<Station[]>([]); // sert pour avoir les données vierge peut etre utile au cas ou
     const [data, setData] = useState<Station[]>([]);
-    const [fuelInfo, setFuelInfo] = useState<Record<string, FuelInfo>>({});
+    const [fuelInfo, setFuelInfo] = useState<any>({});
     const [filteredData, setFilteredData] = useState<Filtered>({
         fuelType: "SP98",
         is_best: true,
     });
 
-    useEffect(() => {
-        if (data.length) {
-            const newFuelInfo = getFuelInfo({ stations: data });
-            setFuelInfo(newFuelInfo);
-        }
-    }, [data]);
 
-    useEffect(() => {
+    useEffect(() => { // sert pour l'ouverture fermeture du footer
         if (!baseData.length) return;
 
-        if (!filteredData.is_best) {
-            const allStationsWithVisibility = baseData.map(station => ({
+        if (!filteredData.is_best) { // savoir si le footer est haut ou bas
+            setData(data.map(station => ({ // toute les stations sont visible
                 ...station,
                 isVisible: true
-            }));
-            setData(allStationsWithVisibility);
-            return;
+            })));
+
+        } else {
+            setData(data.map(station => ({
+                ...station,
+                isVisible: station.isBest  // Seules les stations `isBest` restent visibles
+            })));
         }
 
-        const fuelInfo = getFuelInfo({ stations: baseData });
+
+    }, [filteredData]);
+
+    useEffect(() => {
+        setFuelInfo(getFuelInfo({ stations: baseData })); //module en plus pour les stats min max avg
+    }, [baseData]);
+
+    useEffect(() => {
+        if (!fuelInfo[filteredData.fuelType]) return;
         let stationsWithLowestPrice: Station[] = fuelInfo[filteredData.fuelType]?.minStations || [];
 
         if (stationsWithLowestPrice.length > 1 && region) {
@@ -64,12 +70,16 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
 
             return {
                 ...station,
+                isBest: isBestStation,
                 isVisible: isBestStation
             };
         });
 
         setData(stationsWithVisibility);
-    }, [filteredData, baseData, region]);
+
+    }, [fuelInfo]);
+
+
 
     return (
         <DataContext.Provider value={{ data, fuelInfo, setData, filteredData, setFilteredData, setBaseData, baseData }}>

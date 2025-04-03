@@ -11,7 +11,6 @@ const fetchStations = async (zipCode: string): Promise<Station[]> => {
         if (!response.ok) throw new Error(response.statusText);
         const data = await response.json();
         console.log("📦 Stations mises à jour pour", zipCode);
-        console.log(data.results.length);
         return data.results;
     } catch (err) {
         console.error("Erreur lors du fetch des stations :", err);
