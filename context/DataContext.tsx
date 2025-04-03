@@ -25,7 +25,7 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
     const [data, setData] = useState<Station[]>([]);
     const [fuelInfo, setFuelInfo] = useState<Record<string, FuelInfo>>({});
     const [filteredData, setFilteredData] = useState<Filtered>({
-        fuelType: "E10",
+        fuelType: "SP98",
         is_best: true,
     });
 
