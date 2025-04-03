@@ -6,6 +6,7 @@ import Station from "../../types/Station";
 import parseStationPrices from "../../utils/parseStationPrices";
 import openMap from "../../utils/openMap";
 import FuelPresentation from "./FuelPresentation/FuelPresentation";
+import {useData} from "../../context/DataContext";
 
 interface Props {
     station: Station;
@@ -14,6 +15,7 @@ interface Props {
 
 export default function StationItem({ station, onPress }: Props) {
     const [prix, setPrix] = useState<Prix[]>([]);
+    const {filteredData} = useData();
     useEffect(() => {
         setPrix(parseStationPrices(station));
     }, [station]);
@@ -35,10 +37,14 @@ export default function StationItem({ station, onPress }: Props) {
             </View>
 
             <View>
-                {prix && prix.map((item, i) => (
-                    <FuelPresentation item={item} key={i} />
-                ))}
+                {prix && prix
+                    .filter(item => item.nom === filteredData.fuelType)
+                    .map((item, i) => (
+                        <FuelPresentation item={item} key={i} />
+                    ))
+                }
             </View>
+
         </TouchableOpacity>
     );
 }

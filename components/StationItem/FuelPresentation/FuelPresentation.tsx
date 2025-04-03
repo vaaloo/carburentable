@@ -4,7 +4,6 @@ import {useData} from "../../../context/DataContext";
 
 interface FuelPresentationProps {
     item: Prix;
-    fuelInfo:any;
 }
 
 export default function FuelPresentation({ item }: FuelPresentationProps) {
