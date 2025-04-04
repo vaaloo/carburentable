@@ -8,6 +8,7 @@ interface PopupMarkerProps {
 }
 
 export default function PopupMarker({ item, fuelType }: PopupMarkerProps) {
+
     return (
         <View style={styles.calloutContainer}>
             <Text style={styles.calloutTitle}>Station</Text>

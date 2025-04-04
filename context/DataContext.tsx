@@ -30,54 +30,46 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
     });
 
 
-    useEffect(() => { // sert pour l'ouverture fermeture du footer
+    useEffect(() => {
         if (!baseData.length) return;
+        const fuelType = filteredData.fuelType;
+        const fuel = fuelInfo[fuelType];
+        if (!fuel) return;
 
-        if (!filteredData.is_best) { // savoir si le footer est haut ou bas
-            setData(data.map(station => ({ // toute les stations sont visible
-                ...station,
-                isVisible: true
-            })));
+        const { minStations = [] } = fuel;
 
-        } else {
-            setData(data.map(station => ({
-                ...station,
-                isVisible: station.isBest  // Seules les stations `isBest` restent visibles
-            })));
+        let bestStationId: number | null = null;
+
+        if (minStations.length > 1 && region) {
+            const { latitude = 0, longitude = 0 } = region;
+            minStations.sort((a, b) =>
+                calculateDistance(latitude, longitude, a.geom.lat, a.geom.lon) -
+                calculateDistance(latitude, longitude, b.geom.lat, b.geom.lon)
+            );
         }
 
+        bestStationId = minStations[0]?.id ?? null;
 
-    }, [filteredData]);
+        const updatedStations = baseData.map(station => {
+            const isBest = station.id === bestStationId;
+            const isVisible = filteredData.is_best
+                ? isBest
+                : parseStationPrices(station).some((price: any) => price.nom === fuelType);
+
+            return {
+                ...station,
+                isBest,
+                isVisible
+            };
+        });
+
+        setData(updatedStations);
+    }, [filteredData, fuelInfo]);
+
 
     useEffect(() => {
         setFuelInfo(getFuelInfo({ stations: baseData })); //module en plus pour les stats min max avg
     }, [baseData]);
-
-    useEffect(() => {
-        if (!fuelInfo[filteredData.fuelType]) return;
-        let stationsWithLowestPrice: Station[] = fuelInfo[filteredData.fuelType]?.minStations || [];
-
-        if (stationsWithLowestPrice.length > 1 && region) {
-            stationsWithLowestPrice.sort((a, b) =>
-                calculateDistance(region?.latitude || 0, region?.longitude || 0, a.geom.lat, a.geom.lon) -
-                calculateDistance(region?.latitude || 0, region?.longitude || 0, b.geom.lat, b.geom.lon)
-            );
-        }
-
-        const stationsWithVisibility: Station[] = baseData.map(station => {
-            const isBestStation = stationsWithLowestPrice.length > 0 &&
-                station.id === stationsWithLowestPrice[0].id;
-
-            return {
-                ...station,
-                isBest: isBestStation,
-                isVisible: isBestStation
-            };
-        });
-
-        setData(stationsWithVisibility);
-
-    }, [fuelInfo]);
 
 
 
