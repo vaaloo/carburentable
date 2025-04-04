@@ -30,7 +30,7 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
     });
 
 
-    useEffect(() => {
+    useEffect(() => { // c'est pour le footer si il est up ou pas
         if (!baseData.length) return;
         const fuelType = filteredData.fuelType;
         const fuel = fuelInfo[fuelType];
@@ -42,7 +42,7 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
 
         if (minStations.length > 1 && region) {
             const { latitude = 0, longitude = 0 } = region;
-            minStations.sort((a, b) =>
+            minStations.sort((a: { geom: { lat: number; lon: number; }; }, b: { geom: { lat: number; lon: number; }; }) =>
                 calculateDistance(latitude, longitude, a.geom.lat, a.geom.lon) -
                 calculateDistance(latitude, longitude, b.geom.lat, b.geom.lon)
             );
