@@ -24,5 +24,5 @@ export const handleRegionChange = async (
         } catch (err) {
             console.error("Erreur reverse geocoding :", err);
         }
-    }, 1500);
+    }, 1000);
 };
