@@ -23,7 +23,6 @@ export default function App() {
         }
 
         let location = await Location.getCurrentPositionAsync({});
-        console.log(location);
         mapRef.current?.animateToRegion({
             latitude: location.coords.latitude,
             longitude: location.coords.longitude,

@@ -15,7 +15,6 @@ export const handleRegionChange = async (
         try {
             const addresses = await Location.reverseGeocodeAsync({ latitude: lat, longitude: lon });
             if (addresses.length > 0) {
-                console.log(addresses);
                 const newZip = addresses[0].postalCode;
                 if (newZip) {
                     console.log("⛽️ Nouveau code postal :", newZip);

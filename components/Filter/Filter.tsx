@@ -11,10 +11,6 @@ export default function Filter() {
     const { data, setFilteredData,filteredData } = useData();
     const [allFuelTypes, setAllFuelTypes] = useState<string[]>([]);
     const [selectedFuelType, setSelectedFuelType] = useState<string>("");
-    const fuelInfo = getFuelTypeMinMaxWithStations({
-        stations: data
-    })
-    const [value, setValue] = useState(0.4);
 
     useEffect(() => {
         const fuelTypes = getAllFuelTypeWithStationArray({ stations: data });
@@ -28,9 +24,7 @@ export default function Filter() {
         if (selectedFuelType)  setFilteredData((prev: Filtered) => ({ ...prev, fuelType: selectedFuelType }));
     }, [selectedFuelType]);
 
-    useEffect(() => {
-        setFilteredData((prev: Filtered) => ({ ...prev, max_price: value }));
-    }, [value]);
+
 
     return (
         <View style={styles.container}>
