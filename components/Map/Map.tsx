@@ -1,6 +1,6 @@
-import MapView, {Marker, Callout, LatLng} from 'react-native-maps';
-import React, {forwardRef, ForwardedRef, useEffect, useState, useRef} from 'react';
-import { StyleSheet, View, ActivityIndicator, Text } from 'react-native';
+import MapView from 'react-native-maps';
+import React, {forwardRef, useEffect, useState, useRef} from 'react';
+import {StyleSheet, View, ActivityIndicator} from 'react-native';
 import useLocationRegion from "../../hook/useLocationRegion";
 import { useData } from "../../context/DataContext";
 import fetchStations from "../../utils/fetchStations";
@@ -28,8 +28,14 @@ const Map = forwardRef<MapView>((props, ref) => {
         if (data && data.length > 0) {
             const bestStation = data.find(item => item.isVisible );
             if (bestStation) {
-                // @ts-ignore
                 setSelectedMarkerId(bestStation.id);
+                // @ts-ignore
+                ref?.current?.animateToRegion({
+                    latitude: bestStation.geom.lat,
+                    longitude: bestStation.geom.lon,
+                    latitudeDelta: 0.02,
+                    longitudeDelta: 0.02,
+                }, 1000);
             }
         }
     }, [data]);
