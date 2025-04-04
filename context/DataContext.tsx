@@ -21,55 +21,57 @@ const DataContext = createContext<DataContextType | undefined>(undefined);
 
 export const DataProvider = ({ children }: { children: ReactNode }) => {
     const { region } = useLocationRegion();
-    const [baseData, setBaseData] = useState<Station[]>([]);
+    const [baseData, setBaseData] = useState<Station[]>([]); // sert pour avoir les données vierge peut etre utile au cas ou
     const [data, setData] = useState<Station[]>([]);
-    const [fuelInfo, setFuelInfo] = useState<Record<string, FuelInfo>>({});
+    const [fuelInfo, setFuelInfo] = useState<any>({});
     const [filteredData, setFilteredData] = useState<Filtered>({
         fuelType: "SP98",
         is_best: true,
     });
 
-    useEffect(() => {
-        if (data.length) {
-            const newFuelInfo = getFuelInfo({ stations: data });
-            setFuelInfo(newFuelInfo);
-        }
-    }, [data]);
 
     useEffect(() => {
         if (!baseData.length) return;
+        const fuelType = filteredData.fuelType;
+        const fuel = fuelInfo[fuelType];
+        if (!fuel) return;
 
-        if (!filteredData.is_best) {
-            const allStationsWithVisibility = baseData.map(station => ({
-                ...station,
-                isVisible: true
-            }));
-            setData(allStationsWithVisibility);
-            return;
-        }
+        const { minStations = [] } = fuel;
 
-        const fuelInfo = getFuelInfo({ stations: baseData });
-        let stationsWithLowestPrice: Station[] = fuelInfo[filteredData.fuelType]?.minStations || [];
+        let bestStationId: number | null = null;
 
-        if (stationsWithLowestPrice.length > 1 && region) {
-            stationsWithLowestPrice.sort((a, b) =>
-                calculateDistance(region?.latitude || 0, region?.longitude || 0, a.geom.lat, a.geom.lon) -
-                calculateDistance(region?.latitude || 0, region?.longitude || 0, b.geom.lat, b.geom.lon)
+        if (minStations.length > 1 && region) {
+            const { latitude = 0, longitude = 0 } = region;
+            minStations.sort((a, b) =>
+                calculateDistance(latitude, longitude, a.geom.lat, a.geom.lon) -
+                calculateDistance(latitude, longitude, b.geom.lat, b.geom.lon)
             );
         }
 
-        const stationsWithVisibility: Station[] = baseData.map(station => {
-            const isBestStation = stationsWithLowestPrice.length > 0 &&
-                station.id === stationsWithLowestPrice[0].id;
+        bestStationId = minStations[0]?.id ?? null;
+
+        const updatedStations = baseData.map(station => {
+            const isBest = station.id === bestStationId;
+            const isVisible = filteredData.is_best
+                ? isBest
+                : parseStationPrices(station).some((price: any) => price.nom === fuelType);
 
             return {
                 ...station,
-                isVisible: isBestStation
+                isBest,
+                isVisible
             };
         });
 
-        setData(stationsWithVisibility);
-    }, [filteredData, baseData, region]);
+        setData(updatedStations);
+    }, [filteredData, fuelInfo]);
+
+
+    useEffect(() => {
+        setFuelInfo(getFuelInfo({ stations: baseData })); //module en plus pour les stats min max avg
+    }, [baseData]);
+
+
 
     return (
         <DataContext.Provider value={{ data, fuelInfo, setData, filteredData, setFilteredData, setBaseData, baseData }}>

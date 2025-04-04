@@ -15,15 +15,15 @@ const Map = forwardRef<MapView>((props, ref) => {
     const { setBaseData } = useData();
 
     useEffect(() => {
-        if (!zipCode) return;
 
+        if (!zipCode) return;
+        console.log('lancement de fetch')
         fetchStations(zipCode).then((data) => {
             setBaseData(data);
         });
     }, [zipCode]);
 
     useEffect(() => {
-        console.log("Map effect, data length:", data?.length);
 
         if (data && data.length > 0) {
             const bestStation = data.find(item => item.isVisible );
