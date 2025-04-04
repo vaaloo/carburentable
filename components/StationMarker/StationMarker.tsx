@@ -1,7 +1,7 @@
 import React from 'react';
 import { Marker, Callout } from 'react-native-maps';
 import { View, StyleSheet } from 'react-native';
-import {Filtered} from "../../types/Filtered";
+import { Filtered } from "../../types/Filtered";
 import PopupMarker from "./PopupMarker/PopupMarker";
 import Station from "../../types/Station";
 
@@ -42,7 +42,7 @@ const StationMarker: React.FC<StationMarkerProps> = ({ item, selectedMarkerId, s
                     <View style={styles.regularMarker} />
                 </View>
             )}
-            <Callout>
+            <Callout tooltip>
                 <PopupMarker item={item} fuelType={filteredData.fuelType} />
             </Callout>
         </Marker>
@@ -76,20 +76,6 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderColor: 'white',
     },
-    calloutContainer: {
-        width: 150,
-        padding: 10,
-    },
-    calloutTitle: {
-        fontWeight: 'bold',
-        fontSize: 14,
-        marginBottom: 5,
-    },
-    bestPriceText: {
-        color: 'green',
-        fontWeight: 'bold',
-        marginTop: 5,
-    }
 });
 
 export default StationMarker;

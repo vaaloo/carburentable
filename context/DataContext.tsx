@@ -30,7 +30,7 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
     });
 
 
-    useEffect(() => { // c'est pour le footer si il est up ou pas
+    useEffect(() => {
         if (!baseData.length) return;
         const fuelType = filteredData.fuelType;
         const fuel = fuelInfo[fuelType];
