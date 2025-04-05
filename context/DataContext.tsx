@@ -41,7 +41,7 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
 
         if (minStations.length > 1 && region) {
             const { latitude = 0, longitude = 0 } = region;
-            minStations.sort((a: any, b: any) =>
+            minStations.sort((a: { geom: { lat: number; lon: number; }; }, b: { geom: { lat: number; lon: number; }; }) =>
                 calculateDistance(latitude, longitude, a.geom.lat, a.geom.lon) -
                 calculateDistance(latitude, longitude, b.geom.lat, b.geom.lon)
             );
