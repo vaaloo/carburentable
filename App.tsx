@@ -10,6 +10,19 @@ import {DataProvider} from "./context/DataContext";
 
 export default function App() {
     const mapRef = useRef<MapView>(null);
+
+    const [zoomLevel, setZoomLevel] = useState<number | null>(null);
+
+    const getZoomLevel = async () => {
+        if (!mapRef.current) return;
+        const camera = await mapRef.current.getCamera();
+        if (!camera.altitude) return;
+        setZoomLevel(camera.altitude);
+        console.log(zoomLevel);
+    };
+
+    getZoomLevel();
+
     const handleRecenter = async () => {
         let { status } = await Location.requestForegroundPermissionsAsync();
         if (status !== 'granted') {

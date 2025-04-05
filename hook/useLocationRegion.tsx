@@ -5,6 +5,7 @@ import { Region } from 'react-native-maps';
 const useRegion = () => {
     const [region, setRegion] = useState<Region>();
     const [zipCode, setZipCode] = useState<string>();
+    const [altitude, setAltitude] = useState<number | null>(null);
 
     useEffect(() => {
         (async () => {
@@ -35,7 +36,7 @@ const useRegion = () => {
         })();
     }, []);
 
-    return { region, setRegion, zipCode, setZipCode };
+    return { region, setRegion, zipCode, setZipCode, altitude, setAltitude };
 };
 
 export default useRegion;
