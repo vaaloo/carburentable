@@ -7,6 +7,7 @@ import Map from './components/Map/Map';
 import * as Location from 'expo-location';
 import Footer from "./layout/Footer/Footer";
 import {DataProvider} from "./context/DataContext";
+import {SafeAreaProvider} from "react-native-safe-area-context";
 
 export default function App() {
     const mapRef = useRef<MapView>(null);
@@ -54,16 +55,18 @@ export default function App() {
     };
 
     return (
-        <DataProvider>
+        <SafeAreaProvider>
+            <DataProvider>
 
-            <View style={styles.container}>
-                <StatusBar style="auto" />
-                <Header onRecenter={handleRecenter} />
-                <Map ref={mapRef} />
-                <Footer onStationClicked={onStationClicked}/>
-            </View>
+                <View style={styles.container}>
+                    <StatusBar style="auto" />
+                    <Header onRecenter={handleRecenter} />
+                    <Map ref={mapRef} />
+                    <Footer onStationClicked={onStationClicked}/>
+                </View>
 
-        </DataProvider>
+            </DataProvider>
+        </SafeAreaProvider>
     );
 }
 

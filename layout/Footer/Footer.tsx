@@ -4,14 +4,14 @@ import { BlurView } from "expo-blur";
 import StationItem from "../../components/StationItem/StationItem";
 import { useData } from "../../context/DataContext";
 import { Filtered } from "../../types/Filtered";
-import Station from "../../types/Station";
-import getFuelInfo from "../../utils/getFuelInfo";
+import {useSafeAreaInsets} from "react-native-safe-area-context";
 
 export default function Footer({ onStationClicked }: { onStationClicked: (lat: number, lon: number) => void }) {
     const { data, setFilteredData } = useData();
     const [height] = useState(new Animated.Value(Dimensions.get("window").height * 0.25));
     const touchStartY = useRef(0);
     const dataReel = data.filter((item) => item.isVisible);
+    const insets = useSafeAreaInsets();
 
 
     const panResponder = useRef(
@@ -51,7 +51,7 @@ export default function Footer({ onStationClicked }: { onStationClicked: (lat: n
 
 
     return (
-        <Animated.View style={[styles.footer, { height }]} {...panResponder.panHandlers}>
+        <Animated.View style={[styles.footer, { height, borderRadius: insets.bottom }]} {...panResponder.panHandlers}>
             <BlurView intensity={30} tint="dark" style={StyleSheet.absoluteFill}>
                 <View style={styles.dragZone} />
                 {dataReel ? (
@@ -94,7 +94,6 @@ const styles = StyleSheet.create({
         position: "absolute",
         left: 0,
         right: 0,
-        borderRadius: 30,
         overflow: "hidden",
         backgroundColor: "rgba(0,0,0,0.7)",
         shadowColor: "#000",
