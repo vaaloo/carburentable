@@ -29,7 +29,6 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
         is_best: true,
     });
 
-
     useEffect(() => {
         if (!baseData.length) return;
         const fuelType = filteredData.fuelType;
@@ -66,12 +65,9 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
         setData(updatedStations);
     }, [filteredData, fuelInfo]);
 
-
     useEffect(() => {
         setFuelInfo(getFuelInfo({ stations: baseData })); //module en plus pour les stats min max avg
     }, [baseData]);
-
-
 
     return (
         <DataContext.Provider value={{ data, fuelInfo, setData, filteredData, setFilteredData, setBaseData, baseData }}>

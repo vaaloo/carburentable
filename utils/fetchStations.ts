@@ -7,7 +7,6 @@ const fetchStations = async (zipCode: string, altitude: number): Promise<Station
         console.log("📦 Stations chargées depuis le cache pour", zipCode);
         return stationCache[zipCode];
     }
-
     let whereClause = "";
     if (altitude < 10000) {
         whereClause = `cp=${zipCode}`;
@@ -21,7 +20,6 @@ const fetchStations = async (zipCode: string, altitude: number): Promise<Station
         console.warn("🌐 Altitude trop élevée, aucune requête effectuée.");
         return [];
     }
-
     const encodedUri = encodeURI(
         `https://data.economie.gouv.fr/api/explore/v2.1/catalog/datasets/` +
         `prix-des-carburants-en-france-flux-instantane-v2/records?select=*&where=${whereClause}`
