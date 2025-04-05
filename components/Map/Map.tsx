@@ -18,6 +18,7 @@ const Map = forwardRef<MapView>((props, ref) => {
 
         if (!zipCode) return;
         console.log('lancement de fetch')
+        // @ts-ignore
         fetchStations(zipCode, altitude).then((data) => {
             setBaseData(data);
         });
@@ -55,11 +56,13 @@ const Map = forwardRef<MapView>((props, ref) => {
             {region ? (
                     <MapView
                         style={styles.map}
-                        initialRegion={region}
                         ref={ref}
                         showsPointsOfInterest={false}
+                        pitchEnabled={false}
+                        initialRegion={region}
                         showsUserLocation={true}
                         showsMyLocationButton={false}
+                        // @ts-ignore
                         onRegionChange={(r) => handleRegionChange(r, setZipCode, zipDebounce, ref, setAltitude)}
                         loadingEnabled={true}
                         showsCompass={false}
