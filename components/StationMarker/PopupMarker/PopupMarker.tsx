@@ -55,7 +55,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 14,
         marginBottom: 5,
-        color: '#fff',
     },
     bestPriceText: {
         color: 'green',
