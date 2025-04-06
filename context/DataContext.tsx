@@ -29,7 +29,6 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
         is_best: true,
     });
 
-
     useEffect(() => {
         if (!baseData.length) return;
         const fuelType = filteredData.fuelType;
@@ -42,7 +41,7 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
 
         if (minStations.length > 1 && region) {
             const { latitude = 0, longitude = 0 } = region;
-            minStations.sort((a, b) =>
+            minStations.sort((a: { geom: { lat: number; lon: number; }; }, b: { geom: { lat: number; lon: number; }; }) =>
                 calculateDistance(latitude, longitude, a.geom.lat, a.geom.lon) -
                 calculateDistance(latitude, longitude, b.geom.lat, b.geom.lon)
             );
@@ -66,12 +65,9 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
         setData(updatedStations);
     }, [filteredData, fuelInfo]);
 
-
     useEffect(() => {
         setFuelInfo(getFuelInfo({ stations: baseData })); //module en plus pour les stats min max avg
     }, [baseData]);
-
-
 
     return (
         <DataContext.Provider value={{ data, fuelInfo, setData, filteredData, setFilteredData, setBaseData, baseData }}>

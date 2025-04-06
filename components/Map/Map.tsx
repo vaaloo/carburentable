@@ -1,6 +1,6 @@
-import MapView, {Marker, Callout, LatLng} from 'react-native-maps';
-import React, {forwardRef, ForwardedRef, useEffect, useState, useRef} from 'react';
-import { StyleSheet, View, ActivityIndicator, Text } from 'react-native';
+import MapView from 'react-native-maps';
+import React, {forwardRef, useEffect, useState, useRef} from 'react';
+import {StyleSheet, View, ActivityIndicator} from 'react-native';
 import useLocationRegion from "../../hook/useLocationRegion";
 import { useData } from "../../context/DataContext";
 import fetchStations from "../../utils/fetchStations";
@@ -8,7 +8,7 @@ import StationMarker from "../StationMarker/StationMarker";
 import {handleRegionChange} from "../../utils/handleRegionChange";
 
 const Map = forwardRef<MapView>((props, ref) => {
-    const { region, setZipCode, zipCode } = useLocationRegion();
+    const { region, setZipCode, zipCode, altitude, setAltitude } = useLocationRegion();
     const { data, filteredData } = useData();
     const [selectedMarkerId, setSelectedMarkerId] = useState<number | null>(null);
     const zipDebounce = useRef<NodeJS.Timeout | null>(null);
@@ -18,18 +18,25 @@ const Map = forwardRef<MapView>((props, ref) => {
 
         if (!zipCode) return;
         console.log('lancement de fetch')
-        fetchStations(zipCode).then((data) => {
+        // @ts-ignore
+        fetchStations(zipCode, altitude).then((data) => {
             setBaseData(data);
         });
-    }, [zipCode]);
+    }, [zipCode, altitude]);
 
     useEffect(() => {
 
         if (data && data.length > 0) {
             const bestStation = data.find(item => item.isVisible );
             if (bestStation) {
-                // @ts-ignore
                 setSelectedMarkerId(bestStation.id);
+                // @ts-ignore
+                ref?.current?.animateToRegion({
+                    latitude: bestStation.geom.lat,
+                    longitude: bestStation.geom.lon,
+                    latitudeDelta: 0.02,
+                    longitudeDelta: 0.02,
+                }, 1000);
             }
         }
     }, [data]);
@@ -49,12 +56,14 @@ const Map = forwardRef<MapView>((props, ref) => {
             {region ? (
                     <MapView
                         style={styles.map}
-                        initialRegion={region}
                         ref={ref}
                         showsPointsOfInterest={false}
+                        pitchEnabled={false}
+                        initialRegion={region}
                         showsUserLocation={true}
                         showsMyLocationButton={false}
-                        onRegionChange={(r) => handleRegionChange(r, setZipCode, zipDebounce)}
+                        // @ts-ignore
+                        onRegionChange={(r) => handleRegionChange(r, setZipCode, zipDebounce, ref, setAltitude)}
                         loadingEnabled={true}
                         showsCompass={false}
                     >
