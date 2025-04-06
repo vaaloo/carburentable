@@ -8,7 +8,7 @@ import StationMarker from "../StationMarker/StationMarker";
 import {handleRegionChange} from "../../utils/handleRegionChange";
 
 const Map = forwardRef<MapView>((props, ref) => {
-    const { region, setZipCode, zipCode, altitude, setAltitude } = useLocationRegion();
+    const { region, setZipCode, zipCode } = useLocationRegion();
     const { data, filteredData } = useData();
     const [selectedMarkerId, setSelectedMarkerId] = useState<number | null>(null);
     const zipDebounce = useRef<NodeJS.Timeout | null>(null);
@@ -18,11 +18,10 @@ const Map = forwardRef<MapView>((props, ref) => {
 
         if (!zipCode) return;
         console.log('lancement de fetch')
-        // @ts-ignore
-        fetchStations(zipCode, altitude).then((data) => {
+        fetchStations(zipCode).then((data) => {
             setBaseData(data);
         });
-    }, [zipCode, altitude]);
+    }, [zipCode]);
 
     useEffect(() => {
 
@@ -63,7 +62,7 @@ const Map = forwardRef<MapView>((props, ref) => {
                         showsUserLocation={true}
                         showsMyLocationButton={false}
                         // @ts-ignore
-                        onRegionChange={(r) => handleRegionChange(r, setZipCode, zipDebounce, ref, setAltitude)}
+                        onRegionChange={(r) => handleRegionChange(r, setZipCode, zipDebounce, ref)}
                         loadingEnabled={true}
                         showsCompass={false}
                     >

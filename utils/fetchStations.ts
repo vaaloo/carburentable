@@ -7,10 +7,9 @@ const fetchStations = async (zipCode: string): Promise<Station[]> => {
         console.log("📦 Stations chargées depuis le cache pour", zipCode);
         return stationCache[zipCode];
     }
-    let whereClause = 'cp='+zipCode;
     const encodedUri = encodeURI(
         `https://data.economie.gouv.fr/api/explore/v2.1/catalog/datasets/` +
-        `prix-des-carburants-en-france-flux-instantane-v2/records?select=*&where=${whereClause}`
+        `prix-des-carburants-en-france-flux-instantane-v2/records?select=*&where=cp=${zipCode}`
     );
 
     try {
