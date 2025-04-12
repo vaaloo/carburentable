@@ -3,8 +3,6 @@ import {Prix} from "./Prix";
 
 export default interface Station {
     id: number;
-    latitude: string;
-    longitude: string;
     cp: string;
     pop: string;
     adresse: string;
@@ -36,4 +34,5 @@ export default interface Station {
     region: string;
     code_region: string;
     isVisible?: boolean;
+    isBest?: boolean;
 }

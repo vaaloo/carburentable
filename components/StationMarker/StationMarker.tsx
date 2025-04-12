@@ -1,7 +1,7 @@
 import React from 'react';
 import { Marker, Callout } from 'react-native-maps';
 import { View, StyleSheet } from 'react-native';
-import {Filtered} from "../../types/Filtered";
+import { Filtered } from "../../types/Filtered";
 import PopupMarker from "./PopupMarker/PopupMarker";
 import Station from "../../types/Station";
 
@@ -14,7 +14,7 @@ interface StationMarkerProps {
 }
 
 const StationMarker: React.FC<StationMarkerProps> = ({ item, selectedMarkerId, setSelectedMarkerId, filteredData }) => {
-    const isBestStation = item.isVisible || false;
+
 
     return (
         <Marker
@@ -23,8 +23,8 @@ const StationMarker: React.FC<StationMarkerProps> = ({ item, selectedMarkerId, s
                 latitude: item.geom.lat,
                 longitude: item.geom.lon,
             }}
-            pinColor={isBestStation ? 'green' : 'gray'}
-            zIndex={isBestStation ? 2 : 1}
+            pinColor={item.isVisible ? '#71c44c' : 'gray'}
+            zIndex={item.isVisible ? 2 : 1}
             tracksViewChanges={false}
             onPress={() => setSelectedMarkerId(item.id)}
             ref={markerRef => {
@@ -33,7 +33,7 @@ const StationMarker: React.FC<StationMarkerProps> = ({ item, selectedMarkerId, s
                 }
             }}
         >
-            {isBestStation ? (
+            {item.isVisible ? (
                 <View style={styles.bestMarkerContainer}>
                     <View style={styles.bestMarker} />
                 </View>
@@ -42,8 +42,8 @@ const StationMarker: React.FC<StationMarkerProps> = ({ item, selectedMarkerId, s
                     <View style={styles.regularMarker} />
                 </View>
             )}
-            <Callout>
-                <PopupMarker item={item} isBestStation={isBestStation} fuelType={filteredData.fuelType} />
+            <Callout tooltip>
+                <PopupMarker item={item} fuelType={filteredData.fuelType} />
             </Callout>
         </Marker>
     );
@@ -76,20 +76,6 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderColor: 'white',
     },
-    calloutContainer: {
-        width: 150,
-        padding: 10,
-    },
-    calloutTitle: {
-        fontWeight: 'bold',
-        fontSize: 14,
-        marginBottom: 5,
-    },
-    bestPriceText: {
-        color: 'green',
-        fontWeight: 'bold',
-        marginTop: 5,
-    }
 });
 
 export default StationMarker;
