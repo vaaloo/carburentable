@@ -15,6 +15,8 @@ interface DataContextType {
     setFilteredData: React.Dispatch<React.SetStateAction<Filtered>>;
     baseData: Station[];
     setBaseData: React.Dispatch<React.SetStateAction<Station[]>>;
+    isDragging: React.Dispatch<React.SetStateAction<boolean>>;
+    setIsDragging: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const DataContext = createContext<DataContextType | undefined>(undefined);
@@ -24,6 +26,7 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
     const [baseData, setBaseData] = useState<Station[]>([]); // sert pour avoir les données vierge peut etre utile au cas ou
     const [data, setData] = useState<Station[]>([]);
     const [fuelInfo, setFuelInfo] = useState<any>({});
+    const [isDragging, setIsDragging] = useState(true);
     const [filteredData, setFilteredData] = useState<Filtered>({
         fuelType: "SP98",
         is_best: true,
@@ -69,8 +72,8 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
         setFuelInfo(getFuelInfo({ stations: baseData })); //module en plus pour les stats min max avg
     }, [baseData]);
 
-    return (
-        <DataContext.Provider value={{ data, fuelInfo, setData, filteredData, setFilteredData, setBaseData, baseData }}>
+    return ( //mon vier pour le isDragging
+        <DataContext.Provider value={{ data, fuelInfo, setData, filteredData, setFilteredData, setBaseData, baseData, isDragging, setIsDragging }}>
             {children}
         </DataContext.Provider>
     );
