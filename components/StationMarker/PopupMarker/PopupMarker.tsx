@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
         color: '#ffffff',
     },
     bestPriceText: {
-        color: 'green',
+        color: '#71c44c',
         fontWeight: 'bold',
         marginTop: 5,
     },

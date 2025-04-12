@@ -23,7 +23,7 @@ const StationMarker: React.FC<StationMarkerProps> = ({ item, selectedMarkerId, s
                 latitude: item.geom.lat,
                 longitude: item.geom.lon,
             }}
-            pinColor={item.isVisible ? 'green' : 'gray'}
+            pinColor={item.isVisible ? '#71c44c' : 'gray'}
             zIndex={item.isVisible ? 2 : 1}
             tracksViewChanges={false}
             onPress={() => setSelectedMarkerId(item.id)}
