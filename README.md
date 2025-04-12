@@ -46,7 +46,4 @@ Ce projet est encore en cours d’amélioration. De nombreuses fonctionnalités 
 ## 👥 Contributeurs
 
 - Vaaloo
-- SALENSON Léo
-- TURLURE Naël
-- KANBOUI Jalil
-- GARCIA Léo
+- Lsalenson
