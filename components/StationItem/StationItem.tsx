@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {Text, TouchableOpacity, View, StyleSheet} from "react-native";
-import { Ionicons, FontAwesome5 } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import {Prix} from "../../types/Prix";
 import Station from "../../types/Station";
 import parseStationPrices from "../../utils/parseStationPrices";
@@ -25,7 +25,6 @@ export default function StationItem({ station, onPress }: Props) {
             <View style={styles.headerRow}>
                 <Text style={styles.title}>{station.ville}</Text>
                 <View style={styles.iconGroup}>
-                    <FontAwesome5 name="gas-pump" size={20} color="#71c44c" />
                     <TouchableOpacity onPress={() => openMap(station)} style={styles.itineraryIcon}>
                         <Ionicons name="navigate" size={20} color="#71c44c" />
                     </TouchableOpacity>
