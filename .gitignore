@@ -8,6 +8,16 @@ node_modules/
 dist/
 web-build/
 expo-env.d.ts
+eas.json
+expo-*.json
+expo-*.js
+expo-*.ts
+expo-*.tsbuildinfo
+expo-*.d.ts
+expo-*.js.map
+expo-*.ts.map
+expo-*.json.map
+expo-*.js.flow
 
 # Native
 *.orig.*
