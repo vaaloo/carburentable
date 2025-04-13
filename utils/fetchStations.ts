@@ -4,7 +4,7 @@ const stationCache: Record<string, Station[]> = {};
 
 const fetchStations = async (zipCodes: string[]): Promise<Station[]> => {
     const newZipCodes = zipCodes.filter((zip) => !stationCache[zip]);
-
+    console.log(zipCodes);
     let newStations: Station[] = [];
 
     if (newZipCodes.length > 0) {

@@ -12,7 +12,6 @@ const Map = forwardRef<MapView>((props, ref) => {
     const { data, filteredData } = useData();
     const [selectedMarkerId, setSelectedMarkerId] = useState<number | null>(null);
     const zipDebounce = useRef<NodeJS.Timeout | null>(null);
-    const previousZipCodesRef = useRef<string[]>([]);
     const { setBaseData, isDragging, setIsDragging } = useData();
 
     useEffect(() => {
@@ -63,7 +62,7 @@ const Map = forwardRef<MapView>((props, ref) => {
                         showsUserLocation={true}
                         showsMyLocationButton={false}
                         // @ts-ignore
-                        onRegionChange={(r) => handleRegionChange(r, setZipCode, previousZipCodesRef,zipDebounce, isDragging, setIsDragging)}
+                        onRegionChange={(r) => handleRegionChange(r, setZipCode,zipDebounce, isDragging, setIsDragging)}
                         loadingEnabled={true}
                         showsCompass={false}
                         onPanDrag={() => {
