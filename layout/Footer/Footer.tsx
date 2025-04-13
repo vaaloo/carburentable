@@ -54,7 +54,6 @@ export default function Footer({ onStationClicked }: { onStationClicked: (lat: n
         <Animated.View style={[styles.footer, { height, borderRadius: insets.bottom }]} {...panResponder.panHandlers}>
             <BlurView intensity={30} tint="dark" style={StyleSheet.absoluteFill}>
                 <View style={styles.dragZone} />
-                {dataReel ? (
                     <ScrollView
                         nestedScrollEnabled
                         keyboardShouldPersistTaps="handled"
@@ -78,7 +77,7 @@ export default function Footer({ onStationClicked }: { onStationClicked: (lat: n
                             )
                         }
                     </ScrollView>
-                ): <Text> Loading ...</Text>}
+
 
             </BlurView>
         </Animated.View>

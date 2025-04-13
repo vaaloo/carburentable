@@ -9,7 +9,7 @@ import {handleRegionChange} from "../../utils/handleRegionChange";
 
 const Map = forwardRef<MapView>((props, ref) => {
     const { region, setZipCode, zipCode } = useLocationRegion();
-    const { data, filteredData } = useData();
+    const { data, filteredData, setData } = useData();
     const [selectedMarkerId, setSelectedMarkerId] = useState<number | null>(null);
     const zipDebounce = useRef<NodeJS.Timeout | null>(null);
     const { setBaseData, isDragging, setIsDragging } = useData();
@@ -62,7 +62,7 @@ const Map = forwardRef<MapView>((props, ref) => {
                         showsUserLocation={true}
                         showsMyLocationButton={false}
                         // @ts-ignore
-                        onRegionChange={(r) => handleRegionChange(r, setZipCode,zipDebounce, isDragging, setIsDragging)}
+                        onRegionChange={(r) => handleRegionChange(r, setZipCode,zipDebounce, isDragging, setIsDragging, setData)}
                         loadingEnabled={true}
                         showsCompass={false}
                         onPanDrag={() => {

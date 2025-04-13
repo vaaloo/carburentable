@@ -10,13 +10,15 @@ export const handleRegionChange = async (
     setZipCodes: (zips: string[]) => void,
     zipDebounce: React.MutableRefObject<NodeJS.Timeout | null>,
     isDragging: React.Dispatch<React.SetStateAction<boolean>>,
-    setIsDragging: React.Dispatch<React.SetStateAction<boolean>>
+    setIsDragging: React.Dispatch<React.SetStateAction<boolean>>,
+    setData: any
 ) => {
     if (!isDragging) return;
     if (zipDebounce.current) clearTimeout(zipDebounce.current);
 
     zipDebounce.current = setTimeout(async () => {
         try {
+            setData([])
             const latMin = region.latitude - region.latitudeDelta / 2;
             const latMax = region.latitude + region.latitudeDelta / 2;
             const lonMin = region.longitude - region.longitudeDelta / 2;
