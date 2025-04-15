@@ -69,9 +69,9 @@ const Map = forwardRef<MapView>((props, ref) => {
                             if (!isDragging) setIsDragging(true);
                         }}
                     >
-                    {data && data.map((item, index) => (
+                    {data && data.map((item, i) => (
                         <StationMarker
-                            key={item.id}
+                            key={i}
                             item={item}
                             selectedMarkerId={selectedMarkerId}
                             setSelectedMarkerId={setSelectedMarkerId}

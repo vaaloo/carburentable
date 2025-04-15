@@ -29,7 +29,10 @@ export const handleRegionChange = async (
 
             for (let lat = latMin; lat <= latMax; lat += step) {
                 for (let lon = lonMin; lon <= lonMax; lon += step) {
-                    const coordKey = `${lat.toFixed(3)}_${lon.toFixed(3)}`;
+                    // Arrondir les coordonnées à 3 décimales
+                    const roundedLat = parseFloat(lat.toFixed(3));
+                    const roundedLon = parseFloat(lon.toFixed(3));
+                    const coordKey = `${roundedLat}_${roundedLon}`;
 
                     if (visitedCoords.has(coordKey)) {
                         const cachedZip = visitedCoords.get(coordKey);
@@ -43,7 +46,8 @@ export const handleRegionChange = async (
                     }
 
                     try {
-                        const addr = await Location.reverseGeocodeAsync({ latitude: lat, longitude: lon });
+                        await delay(1500);
+                        const addr = await Location.reverseGeocodeAsync({ latitude: roundedLat, longitude: roundedLon });
                         const postalCode = addr[0]?.postalCode ?? null;
 
                         visitedCoords.set(coordKey, postalCode); // Cache le résultat
@@ -56,8 +60,6 @@ export const handleRegionChange = async (
                         console.warn("Erreur reverseGeocodeAsync :", geoErr);
                         visitedCoords.set(coordKey, null); // Marquer comme visité même si erreur
                     }
-
-                    await delay(500);
                 }
             }
 

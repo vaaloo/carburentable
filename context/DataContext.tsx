@@ -34,6 +34,7 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
 
     useEffect(() => {
         if (!baseData) return;
+
         const fuelType = filteredData.fuelType;
         const fuel = fuelInfo[fuelType];
         if (!fuel) return;
