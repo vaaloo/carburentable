@@ -53,7 +53,7 @@ const fetchZipCode = async (lat: number, lon: number): Promise<string | null | u
             }
             return postalCode;
         } catch (err) {
-            console.warn("❌ Erreur reverse geocoding :", err);
+            console.warn("❌ Erreur :", err);
             visitedCoords.set(coordKey, null);
             return null;
         }
