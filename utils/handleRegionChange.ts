@@ -1,75 +1,58 @@
-import * as Location from 'expo-location';
 import { Region } from 'react-native-maps';
 import React from "react";
+import fetchZipCode from "./fetchZipCode";
 
-const visitedCoords = new Map<string, string | null>(); // clé: lat_lon, valeur: code postal ou null
-const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+let prevZipCodes: string[] = [];
+const arraysEqual = (a: string[], b: string[]) =>
+    a.length === b.length && a.every((v, i) => v === b[i]);
 
 export const handleRegionChange = async (
     region: Region,
     setZipCodes: (zips: string[]) => void,
     zipDebounce: React.MutableRefObject<NodeJS.Timeout | null>,
-    isDragging: React.Dispatch<React.SetStateAction<boolean>>,
+    isDragging: React.MutableRefObject<boolean>,
     setIsDragging: React.Dispatch<React.SetStateAction<boolean>>,
     setData: any
 ) => {
     if (!isDragging) return;
     if (zipDebounce.current) clearTimeout(zipDebounce.current);
-
     zipDebounce.current = setTimeout(async () => {
-        try {
-            setData([])
-            const latMin = region.latitude - region.latitudeDelta / 2;
-            const latMax = region.latitude + region.latitudeDelta / 2;
-            const lonMin = region.longitude - region.longitudeDelta / 2;
-            const lonMax = region.longitude + region.longitudeDelta / 2;
+        const latMin = region.latitude - region.latitudeDelta / 2;
+        const latMax = region.latitude + region.latitudeDelta / 2;
+        const lonMin = region.longitude - region.longitudeDelta / 2;
+        const lonMax = region.longitude + region.longitudeDelta / 2;
 
-            const step = 0.02;
-            const zipSet = new Set<string>();
+        const step = 0.02;
+        const coordList: [number, number][] = [];
 
-            for (let lat = latMin; lat <= latMax; lat += step) {
-                for (let lon = lonMin; lon <= lonMax; lon += step) {
-                    // Arrondir les coordonnées à 3 décimales
-                    const roundedLat = parseFloat(lat.toFixed(3));
-                    const roundedLon = parseFloat(lon.toFixed(3));
-                    const coordKey = `${roundedLat}_${roundedLon}`;
-
-                    if (visitedCoords.has(coordKey)) {
-                        const cachedZip = visitedCoords.get(coordKey);
-                        if (cachedZip) {
-                            zipSet.add(cachedZip);
-                            console.log(`🔁 Repris du cache: ${coordKey} → ${cachedZip}`);
-                        } else {
-                            console.log(`⚠️ Coordonnée sans code postal connue: ${coordKey}`);
-                        }
-                        continue;
-                    }
-
-                    try {
-                        await delay(1500);
-                        const addr = await Location.reverseGeocodeAsync({ latitude: roundedLat, longitude: roundedLon });
-                        const postalCode = addr[0]?.postalCode ?? null;
-
-                        visitedCoords.set(coordKey, postalCode); // Cache le résultat
-
-                        if (postalCode) {
-                            console.log(`🆕 Code postal trouvé : ${coordKey} → ${postalCode}`);
-                            zipSet.add(postalCode);
-                        }
-                    } catch (geoErr) {
-                        console.warn("Erreur reverseGeocodeAsync :", geoErr);
-                        visitedCoords.set(coordKey, null); // Marquer comme visité même si erreur
-                    }
-                }
+        for (let lat = latMin; lat <= latMax; lat += step) {
+            for (let lon = lonMin; lon <= lonMax; lon += step) {
+                const roundedLat = parseFloat(lat.toFixed(3));
+                const roundedLon = parseFloat(lon.toFixed(3));
+                coordList.push([roundedLat, roundedLon]);
             }
-
-            const result = Array.from(zipSet);
-            console.log("✅ Codes postaux uniques trouvés :", result);
-            setZipCodes(result);
-            setIsDragging(false);
-
-        } catch (err) {
-            console.error("Erreur reverse geocoding :", err);
         }
+        console.log(coordList);
+        const zipResults = await Promise.allSettled(
+            coordList.map(([lat, lon]) => fetchZipCode(lat, lon))
+        );
+
+        const zipSet = new Set<string>();
+        zipResults.forEach(res => {
+            if (res.status === "fulfilled" && res.value) {
+                zipSet.add(res.value);
+            }
+        });
+
+        const result = Array.from(zipSet).sort();
+        console.log("✅ Codes postaux uniques trouvés :", result);
+
+        setIsDragging(false);
+
+        if (arraysEqual(prevZipCodes, result)) return;
+
+        setData([]);
+        setZipCodes(result);
+        prevZipCodes = result;
     }, 500);
 };

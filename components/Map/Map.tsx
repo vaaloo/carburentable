@@ -76,6 +76,7 @@ const Map = forwardRef<MapView>((props, ref) => {
                             selectedMarkerId={selectedMarkerId}
                             setSelectedMarkerId={setSelectedMarkerId}
                             filteredData={filteredData}
+                            isDragging={isDragging}
                         />
                     ))}
                 </MapView>

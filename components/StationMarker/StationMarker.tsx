@@ -11,9 +11,10 @@ interface StationMarkerProps {
     selectedMarkerId: number | null;
     setSelectedMarkerId: (id: number) => void;
     filteredData: Filtered;
+    isDragging: boolean;
 }
 
-const StationMarker: React.FC<StationMarkerProps> = ({ item, selectedMarkerId, setSelectedMarkerId, filteredData }) => {
+const StationMarker: React.FC<StationMarkerProps> = ({ item, selectedMarkerId, setSelectedMarkerId, filteredData, isDragging }) => {
 
 
     return (
@@ -28,6 +29,7 @@ const StationMarker: React.FC<StationMarkerProps> = ({ item, selectedMarkerId, s
             tracksViewChanges={false}
             onPress={() => setSelectedMarkerId(item.id)}
             ref={markerRef => {
+                if(isDragging) return;
                 if (markerRef && filteredData.is_best && item.id === selectedMarkerId) {
                     setTimeout(() => markerRef.showCallout(), 500);
                 }
