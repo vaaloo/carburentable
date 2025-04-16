@@ -15,7 +15,7 @@ interface DataContextType {
     setFilteredData: React.Dispatch<React.SetStateAction<Filtered>>;
     baseData: Station[];
     setBaseData: React.Dispatch<React.SetStateAction<Station[]>>;
-    isDragging: React.Dispatch<React.SetStateAction<boolean>>;
+    isDragging: boolean;
     setIsDragging: React.Dispatch<React.SetStateAction<boolean>>;
 }
 

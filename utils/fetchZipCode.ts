@@ -1,6 +1,5 @@
 const visitedCoords = new Map<string, string | null>();
 
-// File d'attente
 const requestQueue: (() => void)[] = [];
 let requestsThisSecond = 0;
 

@@ -21,6 +21,7 @@ export default function Header({
         useNativeDriver: true,
       }).start();
     }, [filterVisible]);
+
     const onRecenter = async () => {
         let { status } = await Location.requestForegroundPermissionsAsync();
         if (status !== 'granted') {
