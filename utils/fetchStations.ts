@@ -20,7 +20,7 @@ const fetchStations = async (zipCodes: string[]): Promise<Station[]> => {
             const data = await response.json();
             newStations = data.results;
 
-            // On split par code postal et on remplit le cache
+            // On split par code postal et on remplit le cacahe
             newZipCodes.forEach(zip => {
                 stationCache[zip] = newStations.filter(station => station.cp === zip);
             });

@@ -45,7 +45,7 @@ export const handleRegionChange = async (
         });
 
         const result = Array.from(zipSet).sort();
-        console.log("✅ Codes postaux uniques trouvés :", result);
+        console.log("✅ Codes postaux uniquaes trouvés :", result);
 
         setIsDragging(false);
 
