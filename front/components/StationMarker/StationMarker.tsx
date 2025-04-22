@@ -1,9 +1,9 @@
 import React from 'react';
 import { Marker, Callout } from 'react-native-maps';
 import { View, StyleSheet } from 'react-native';
-import { Filtered } from "../../types/Filtered";
 import PopupMarker from "./PopupMarker/PopupMarker";
-import Station from "../../types/Station";
+import {Filtered} from "../../../types/Filtered";
+import Station from "../../../types/Station";
 
 
 interface StationMarkerProps {

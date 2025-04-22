@@ -1,6 +1,6 @@
 import { Text, View, StyleSheet } from "react-native";
 import React from "react";
-import Station from "../../../types/Station";
+import Station from "../../../../types/Station";
 
 interface PopupMarkerProps {
     item: Station;
