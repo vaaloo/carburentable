@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/front/.idea/carburentable.iml" filepath="$PROJECT_DIR$/front/.idea/carburentable.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/carburentable.iml" filepath="$PROJECT_DIR$/.idea/carburentable.iml" />
     </modules>
   </component>
 </project>
