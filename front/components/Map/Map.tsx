@@ -18,7 +18,6 @@ const Map = forwardRef<MapView>((props, ref) => {
 
         if (!zipCode) return;
         console.log('lancement de fetch')
-        console.log(zipCode);
         fetchStations(zipCode).then((data) => {
             setBaseData(data);
         });

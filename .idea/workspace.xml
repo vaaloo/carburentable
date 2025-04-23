@@ -7,9 +7,7 @@
     <list default="true" id="35f55174-4d3b-4fd1-bc1e-0465ed65a4bd" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/front/components/Map/Map.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/front/components/Map/Map.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front/context/DataContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/front/context/DataContext.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front/hook/useLocationRegion.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/front/hook/useLocationRegion.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front/utils/handleRegionChange.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/utils/handleRegionChange.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/layout/Header/Header.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/front/layout/Header/Header.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -80,7 +78,7 @@
       <workItem from="1743192823611" duration="25807000" />
       <workItem from="1743506903780" duration="96313000" />
       <workItem from="1744263011276" duration="11740000" />
-      <workItem from="1744473817154" duration="43474000" />
+      <workItem from="1744473817154" duration="43554000" />
     </task>
     <servers />
   </component>
