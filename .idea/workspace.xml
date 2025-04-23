@@ -5,48 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="35f55174-4d3b-4fd1-bc1e-0465ed65a4bd" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/front/.idea/carburentable.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/front/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/front/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/front/assets/images/icon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/front/assets/images/icon_no_bg.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/front/assets/images/splash.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/front/components/StationItem/FuelPresentation/FuelPresentation.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/front/utils/fetchStations.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/front/utils/fetchZipCode.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/front/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/front/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/front/.idea/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/carburentable.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/discord.xml" beforeDir="false" afterPath="$PROJECT_DIR$/front/.idea/discord.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/material_theme_project_new.xml" beforeDir="false" afterPath="$PROJECT_DIR$/front/.idea/material_theme_project_new.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/front/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LICENSE" beforeDir="false" afterPath="$PROJECT_DIR$/front/LICENSE" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/front/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.json" beforeDir="false" afterPath="$PROJECT_DIR$/front/app.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/Filter/Filter.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/front/components/Filter/Filter.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/Map/Map.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/front/components/Map/Map.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/StationItem/FuelPresentation/FuelPresentation.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/StationItem/StationItem.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/front/components/StationItem/StationItem.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/StationMarker/PopupMarker/PopupMarker.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/front/components/StationMarker/PopupMarker/PopupMarker.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/StationMarker/StationMarker.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/front/components/StationMarker/StationMarker.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/context/DataContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/front/context/DataContext.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hook/useLocationRegion.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/front/hook/useLocationRegion.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/layout/Footer/Footer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/front/layout/Footer/Footer.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/layout/Header/Header.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/front/layout/Header/Header.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/front/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/front/tsconfig.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/calculateDistance.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/utils/calculateDistance.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/fetchStations.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/getAllFuelTypeWithStationArray.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/utils/getAllFuelTypeWithStationArray.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/getFuelInfo.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/utils/getFuelInfo.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/handleRegionChange.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/utils/handleRegionChange.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/openMap.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/utils/openMap.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/parseStationPrices.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/utils/parseStationPrices.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/components/Map/Map.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/front/components/Map/Map.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/context/DataContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/front/context/DataContext.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/hook/useLocationRegion.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/front/hook/useLocationRegion.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/utils/handleRegionChange.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/utils/handleRegionChange.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -90,6 +53,7 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/front" />
       <recent name="$PROJECT_DIR$/assets" />
     </key>
@@ -116,7 +80,7 @@
       <workItem from="1743192823611" duration="25807000" />
       <workItem from="1743506903780" duration="96313000" />
       <workItem from="1744263011276" duration="11740000" />
-      <workItem from="1744473817154" duration="40174000" />
+      <workItem from="1744473817154" duration="43474000" />
     </task>
     <servers />
   </component>

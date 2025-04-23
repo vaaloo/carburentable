@@ -1,26 +1,58 @@
-import * as Location from 'expo-location';
-import { LatLng } from 'react-native-maps';
-import type MapView from 'react-native-maps';
+import { Region } from 'react-native-maps';
+import React from "react";
+import fetchZipCode from "./fetchZipCode";
+
+let prevZipCodes: string[] = [];
+const arraysEqual = (a: string[], b: string[]) =>
+    a.length === b.length && a.every((v, i) => v === b[i]);
 
 export const handleRegionChange = async (
-    r: LatLng,
-    setZipCode: (zip: string) => void,
+    region: Region,
+    setZipCodes: (zips: string[]) => void,
     zipDebounce: React.MutableRefObject<NodeJS.Timeout | null>,
-    mapRef: React.RefObject<MapView>,
+    isDragging: React.MutableRefObject<boolean>,
+    setIsDragging: React.Dispatch<React.SetStateAction<boolean>>,
+    setData: any
 ) => {
-    const lat = r.latitude;
-    const lon = r.longitude;
-
+    if (!isDragging) return;
     if (zipDebounce.current) clearTimeout(zipDebounce.current);
-
     zipDebounce.current = setTimeout(async () => {
-        try {
-            const addresses = await Location.reverseGeocodeAsync({ latitude: lat, longitude: lon });
-            if (!addresses[0].postalCode) return;
-            setZipCode(addresses[0].postalCode)
+        const latMin = region.latitude - region.latitudeDelta / 2;
+        const latMax = region.latitude + region.latitudeDelta / 2;
+        const lonMin = region.longitude - region.longitudeDelta / 2;
+        const lonMax = region.longitude + region.longitudeDelta / 2;
 
-        } catch (err) {
-            console.error("Erreur reverse geocoding ou récupération caméra :", err);
+        const step = 0.02;
+        const coordList: [number, number][] = [];
+
+        for (let lat = latMin; lat <= latMax; lat += step) {
+            for (let lon = lonMin; lon <= lonMax; lon += step) {
+                const roundedLat = parseFloat(lat.toFixed(3));
+                const roundedLon = parseFloat(lon.toFixed(3));
+                coordList.push([roundedLat, roundedLon]);
+            }
         }
-    }, 1000);
+        console.log(coordList);
+        const zipResults = await Promise.allSettled(
+            coordList.map(([lat, lon]) => fetchZipCode(lat, lon))
+        );
+
+        const zipSet = new Set<string>();
+        zipResults.forEach(res => {
+            if (res.status === "fulfilled" && res.value) {
+                zipSet.add(res.value);
+            }
+        });
+
+        const result = Array.from(zipSet).sort();
+        console.log("✅ Codes postaux uniquaes trouvés :", result);
+
+        setIsDragging(false);
+
+
+        setData([]);
+        setZipCodes(result);
+        console.log(result);
+        prevZipCodes = result;
+    }, 500);
 };

@@ -9,7 +9,7 @@ import {handleRegionChange} from "../../utils/handleRegionChange";
 
 const Map = forwardRef<MapView>((props, ref) => {
     const { region, setZipCode, zipCode } = useLocationRegion();
-    const { data, filteredData } = useData();
+    const { data, filteredData, setData, isDragging, setIsDragging } = useData();
     const [selectedMarkerId, setSelectedMarkerId] = useState<number | null>(null);
     const zipDebounce = useRef<NodeJS.Timeout | null>(null);
     const { setBaseData } = useData();
@@ -18,6 +18,7 @@ const Map = forwardRef<MapView>((props, ref) => {
 
         if (!zipCode) return;
         console.log('lancement de fetch')
+        console.log(zipCode);
         fetchStations(zipCode).then((data) => {
             setBaseData(data);
         });
@@ -62,7 +63,7 @@ const Map = forwardRef<MapView>((props, ref) => {
                         showsUserLocation={true}
                         showsMyLocationButton={false}
                         // @ts-ignore
-                        onRegionChange={(r) => handleRegionChange(r, setZipCode, zipDebounce, ref)}
+                        onRegionChange={(r) => handleRegionChange(r, setZipCode, zipDebounce, isDragging, setIsDragging, setData)}
                         loadingEnabled={true}
                         showsCompass={false}
                     >
